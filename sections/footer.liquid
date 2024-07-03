@@ -1,0 +1,190 @@
+<footer class="footer bg-black">
+  <div class="container">
+    <div class=" flex justify-center items-center py-10 text-white">
+      footer
+    </div>
+  </div>
+</footer>
+
+{% style %}
+  .shopify-section-group-footer-group {
+    margin-top: auto;
+  }
+{% endstyle %}
+
+
+{% schema %}
+  {
+    "name": "Footer",
+    "enabled_on": {
+      "groups": ["footer"]
+    },
+    "blocks": [
+      {
+        "name": "Subscription",
+        "type": "subscription",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "active",
+            "default": true,
+            "label": "Newsletter Enabled"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "color",
+            "id": "heading_color",
+            "label": "Heading color",
+            "default": "#fff"
+          },
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Desktop Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "mob_image",
+            "label": "Mobile Image"
+          }
+        ]
+      },
+      {
+        "name": "Company",
+        "type": "company",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "phone",
+            "label": "Telephone",
+            "default": "888-227-3946"
+          },
+          {
+            "type": "text",
+            "id": "work_days",
+            "label": "Work Days",
+            "default": "Mon - Fri: 9am - 5pm EST"
+          },
+          {
+            "type": "text",
+            "id": "store_text",
+            "label": "Store Button Text",
+            "default": "Find a Store"
+          },
+          {
+            "type": "url",
+            "id": "store_url",
+            "label": "Store Button URL"
+          },
+          {
+            "type": "url",
+            "id": "facebook",
+            "label": "Facebook"
+          },
+          {
+            "type": "url",
+            "id": "twitter",
+            "label": "Twitter (X)"
+          },
+          {
+            "type": "url",
+            "id": "instagram",
+            "label": "Instagram"
+          },
+          {
+            "type": "url",
+            "id": "pinterest",
+            "label": "Pinterest"
+          },
+          {
+            "type": "url",
+            "id": "youtube",
+            "label": "Youtube"
+          },
+          {
+            "type": "url",
+            "id": "snapchat",
+            "label": "Snapchat"
+          },
+          {
+            "type": "url",
+            "id": "tiktok",
+            "label": "Tiktok"
+          }
+        ]
+      },
+      {
+        "name": "Menu",
+        "type": "menu",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Menu"
+          },
+          {
+            "type": "header",
+            "content": "Capezio texts"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          },
+          {
+            "type": "text",
+            "id": "note",
+            "label": "Note"
+          }
+        ]
+      },
+      {
+        "name": "Additional Links",
+        "type": "additional_links",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "url",
+            "id": "privacy_url",
+            "label": "Privacy Policy URL"
+          },
+          {
+            "type": "url",
+            "id": "terms_url",
+            "label": "Terms of Use URL"
+          }
+        ]
+      },
+      {
+        "name": "Copyright",
+        "type": "copyright",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "copyright",
+            "label": "Copyright",
+            "default": "© Ballet Makers, Inc. 2024"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

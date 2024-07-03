@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "frontend-guide",
+      "settings": {
+        "heading": "Frontend Guide"
+      }
+    }
+  },
+  "order": ["main"]
+}

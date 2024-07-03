@@ -1,0 +1,25 @@
+{
+  "name": "with-typescript",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "adastra dev",
+    "build": "adastra build",
+    "preview": "adastra preview",
+    "check": "adastra check"
+  },
+  "devDependencies": {
+    "@types/alpinejs": "^3.13.10",
+    "adastra-cli": "latest",
+    "adastra-plugin": "latest",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.4"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "alpinejs": "^3.14.1"
+  }
+}

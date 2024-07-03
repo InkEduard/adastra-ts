@@ -3,13 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "adastra dev --store=https://ink-edy-store.myshopify.com",
-    "theme:create": "shopify theme push -u --ignore assets/adastra.manifest.json --ignore package.json --ignore pnpm-lock.yaml --ignore ./*.config.* --ignore node_modules --ignore apps/* --ignore tsconfig.json",
-    "theme:push": "shopify theme push --ignore assets/adastra.manifest.json --ignore package.json --ignore pnpm-lock.yaml --ignore ./*.config.* --ignore node_modules --ignore apps/* --ignore tsconfig.json -t",
+    "dev": "adastra dev",
     "build": "adastra build",
     "preview": "adastra preview",
-    "check": "adastra check",
-    "format": "prettier --write ."
+    "check": "adastra check"
   },
   "devDependencies": {
     "@types/alpinejs": "^3.13.10",

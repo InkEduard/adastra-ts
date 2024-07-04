@@ -31,6 +31,7 @@ module.exports = {
         'beige-light': 'rgba(var(--color-beige-light) / <alpha-value>)',
         red: 'rgba(var(--color-red) / <alpha-value>)',
         yellow: 'rgba(var(--color-yellow) / <alpha-value>)',
+        purple: 'rgba(var(--color-purple) / <alpha-value>)',
       },
       boxShadow: {
         xs: '0 13px 20px 0 rgba(0, 0, 0, 0.05)',

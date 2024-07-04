@@ -24,6 +24,13 @@ module.exports = {
       },
       colors: {
         primary: 'rgba(var(--color-primary) / <alpha-value>)',
+        'brown': 'rgba(var(--color-brown) / <alpha-value>)',
+        'gray-dark': 'rgba(var(--color-gray-dark) / <alpha-value>)',
+        'green-light': 'rgba(var(--color-green-light) / <alpha-value>)',
+        beige: 'rgba(var(--color-beige) / <alpha-value>)',
+        'beige-light': 'rgba(var(--color-beige-light) / <alpha-value>)',
+        red: 'rgba(var(--color-red) / <alpha-value>)',
+        yellow: 'rgba(var(--color-yellow) / <alpha-value>)',
       },
       boxShadow: {
         xs: '0 13px 20px 0 rgba(0, 0, 0, 0.05)',

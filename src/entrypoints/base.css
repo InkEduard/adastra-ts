@@ -44,32 +44,32 @@
   }
 
   html {
-    @apply h-full scroll-smooth font-body text-base antialiased;
+    @apply h-full scroll-smooth font-body text-base antialiased bg-beige-light text-gray-dark;
     -webkit-tap-highlight-color: transparent;
   }
 
   h1 {
-    @apply text-7xl font-bold;
+    @apply text-7xl font-bold text-brown;
   }
 
   h2 {
-    @apply text-6xl font-bold;
+    @apply text-6xl font-bold text-brown;
   }
 
   h3 {
-    @apply text-5xl font-bold;
+    @apply text-5xl font-bold text-brown;
   }
 
   h4 {
-    @apply text-4xl font-semibold;
+    @apply text-4xl font-semibold text-brown;
   }
 
   h5 {
-    @apply text-3xl font-semibold;
+    @apply text-3xl font-semibold text-brown;
   }
 
   h6 {
-    @apply text-2xl font-semibold;
+    @apply text-2xl font-semibold text-brown;
   }
 }
 
@@ -93,6 +93,8 @@ body {
 
 .container {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }

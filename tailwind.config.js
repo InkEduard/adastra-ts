@@ -23,19 +23,28 @@ module.exports = {
         '2xl': '1660px',
       },
       colors: {
+        'green-dark': 'rgba(var(--color-green-dark) / <alpha-value>)',
         primary: 'rgba(var(--color-primary) / <alpha-value>)',
+        'green-light': 'rgba(var(--color-green-light) / <alpha-value>)',
+        mustard: 'rgba(var(--color-mustard) / <alpha-value>)',
+        brown: 'rgba(var(--color-brown) / <alpha-value>)',
+        'brown-light': 'rgba(var(--color-brown-light) / <alpha-value>)',
+        'orange-light': 'rgba(var(--color-orange-light) / <alpha-value>)',
+        orange: 'rgba(var(--color-orange) / <alpha-value>)',
+        red: 'rgba(var(--color-red) / <alpha-value>)',
+        'bright-red': 'rgba(var(--color-bright-red) / <alpha-value>)',
+        'gray-light': 'rgba(var(--color-gray-light) / <alpha-value>)',
       },
       boxShadow: {
-        xs: '0 13px 20px 0 rgba(0, 0, 0, 0.05)',
-        md: '0 13px 20px 0 rgba(0, 0, 0, .25)',
-        sm: '0 4px 4px 0 rgba(0, 0, 0, .25)',
+        lg: '0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
+        xl: '0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
       },
       textShadow: {
-        DEFAULT: '0 4px 4px rgba(0, 0, 0, .25)',
+        DEFAULT: '0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12)',
       },
       fontFamily: {
         heading: [
-          'var(--font-body-family)',
+          'var(--font-heading-family)',
           ...defaultTheme.fontFamily.sans,
         ],
         body: ['var(--font-body-family)', ...defaultTheme.fontFamily.sans],

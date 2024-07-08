@@ -89,6 +89,10 @@
   }
 }
 
+.peer:checked ~ label > span {
+  display: block;
+}
+
 [x-cloak] {
   @apply hidden;
 }

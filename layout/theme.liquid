@@ -40,13 +40,17 @@
     {%- render 'adastra' with 'base.css' -%}
   </head>
   <body>
-    {% sections 'header-group' %}
+    {% unless canonical_url contains 'frontend-guide' %}
+      {% sections 'header-group' %}
+    {% endunless %}
     <main
       id="MainContent"
       tabindex="-1">
       {{ content_for_layout }}
     </main>
-    {% sections 'footer-group' %}
+    {% unless canonical_url contains 'frontend-guide' %}
+      {% sections 'footer-group' %}
+    {% endunless %}
 
     {%- render 'adastra' with 'index.ts' -%}
 

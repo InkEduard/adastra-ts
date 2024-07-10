@@ -7,12 +7,19 @@ export default (Alpine: AlpineType) => {
 
   Alpine.data('menu', () => ({
     selected: null as null | string,
-    breakpoint: 1024,
+    breakpoint: 1279,
 
     toggleSelected(event: Event, index: string) {
       if (event.type === 'mouseover' && window.innerWidth < this.breakpoint) return;
+      if (event.type === 'click' && window.innerWidth > this.breakpoint) return;
 
       this.selected = this.selected !== index ? index : null;
     },
+
+    menuOut(event: Event) {
+      if (event.type === 'mouseleave' && window.innerWidth < this.breakpoint) return;
+
+      this.selected = null;
+  }
   }));
 };

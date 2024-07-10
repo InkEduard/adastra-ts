@@ -1,7 +1,42 @@
-<header class="border-b border-black" x-ref="header">
+<header class="border-b border-brown/20" x-ref="header">
   <div class="container">
-    <div class="flex justify-center items-center font-bold h-10 ">
-      header
+    <div class="flex items-center justify-between py-5">
+      <div class="header__logo flex justify-start w-1/4">
+        <a
+          class="inline-flex"
+          href="{{ routes.root_url }}"
+          title="{{ shop.name }}">
+          {%- if settings.logo != blank -%}
+            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+            {% capture sizes %}(min-width: 750px) {{ settings.logo_width }}px, 50vw{% endcapture %}
+            {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+            {{
+              settings.logo
+              | image_url: width: settings.logo_width
+              | image_tag:
+                widths: widths,
+                height: logo_height,
+                width: settings.logo_width,
+                alt: logo_alt,
+                sizes: sizes,
+                preload: true
+            }}
+          {%- else -%}
+            <span>{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+      <div class="header__menu flex justify-center w-1/2">
+        {% if section.settings.menu != blank %}
+          {% render 'header-menu',
+            section_settings: section.settings
+          %}
+        {% endif %}
+      </div>
+      <div class="header__menu flex justify-end w-1/4">
+        account
+      </div>
     </div>
   </div>
 </header>
@@ -35,6 +70,14 @@
     "blocks": [
       {
         "type": "@app"
+      }
+    ],
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "menu",
+        "default": "main-menu",
+        "label": "Menu"
       }
     ]
   }

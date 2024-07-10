@@ -96,6 +96,10 @@
 html:has(body.no-scroll),
 body.no-scroll {
   overflow: hidden;
+}
+
+html,
+body {
   padding-bottom: 0 !important;
 }
 

@@ -23,17 +23,17 @@ module.exports = {
         '2xl': '1660px',
       },
       colors: {
-        'green-dark': 'rgba(var(--color-green-dark) / <alpha-value>)',
-        primary: 'rgba(var(--color-primary) / <alpha-value>)',
-        'green-light': 'rgba(var(--color-green-light) / <alpha-value>)',
-        mustard: 'rgba(var(--color-mustard) / <alpha-value>)',
-        brown: 'rgba(var(--color-brown) / <alpha-value>)',
-        'brown-light': 'rgba(var(--color-brown-light) / <alpha-value>)',
-        'orange-light': 'rgba(var(--color-orange-light) / <alpha-value>)',
-        orange: 'rgba(var(--color-orange) / <alpha-value>)',
-        red: 'rgba(var(--color-red) / <alpha-value>)',
-        'bright-red': 'rgba(var(--color-bright-red) / <alpha-value>)',
-        'gray-light': 'rgba(var(--color-gray-light) / <alpha-value>)',
+        'green-dark': 'rgba(var(--color-green-dark) / <alpha-value>)', // #2d3f1c
+        primary: 'rgba(var(--color-primary) / <alpha-value>)', // #476529
+        'green-light': 'rgba(var(--color-green-light) / <alpha-value>)', // #7bb264
+        mustard: 'rgba(var(--color-mustard) / <alpha-value>)', // #aea276
+        brown: 'rgba(var(--color-brown) / <alpha-value>)', // #2e2e2d
+        'brown-light': 'rgba(var(--color-brown-light) / <alpha-value>)', // #9b8477
+        'orange-light': 'rgba(var(--color-orange-light) / <alpha-value>)', // #edb993
+        orange: 'rgba(var(--color-orange) / <alpha-value>)', // #faa12c
+        red: 'rgba(var(--color-red) / <alpha-value>)', // #ee6452
+        'bright-red': 'rgba(var(--color-bright-red) / <alpha-value>)', // #f44336
+        'gray-light': 'rgba(var(--color-gray-light) / <alpha-value>)', // #f9f9f9
       },
       boxShadow: {
         lg: '0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',

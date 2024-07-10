@@ -3,6 +3,12 @@ import { UserInteractionEvents } from '~/types';
 const init = async () => {
   const { default: Alpine } = await import('alpinejs');
 
+  if (document.querySelector('[x-data*="menu"]')) {
+    const { default: Menu } = await import('~/components/menu');
+
+    Alpine.plugin(Menu);
+  }
+
   // if (document.querySelector('[x-data*="swiper"]')) {
   //   const { default: Swiper } = await import('~/components/swiper');
 

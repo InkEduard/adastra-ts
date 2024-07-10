@@ -1,0 +1,122 @@
+<nav x-data="menu()" class="w-full">
+  <div class="menu-mask bg-black bg-opacity-30 z-[118] absolute left-0 w-full h-dvh top-0 hidden"
+    :class="{'!block lg:!hidden': $store.menuState.isMenuOpened === true}"
+    @click="$store.menuState.isMenuOpened = false" x-ref="menuMask">
+  </div>
+  <div class="fixed z-[119] top-0 left-0 w-4/5 lg:w-full -translate-x-full transition ease-out lg:z-[9] lg:static lg:!translate-x-[initial]"
+    :class="{'!translate-x-0': $store.menuState.isMenuOpened === true}">
+    <button
+      class="hidden items-center justify-center absolute right-5 top-7 z-[120] h-5 w-5 focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1"
+      :class="$store.menuState.isMenuOpened === true ? '!flex lg:!hidden' : ''"
+      @click="$store.menuState.isMenuOpened = false">
+      {% render 'icon', icon: 'cross', class: '!w-2 !h-2 text-gray-dark' %}
+    </button>
+    <div
+      class="main-menu w-full h-dvh overflow-y-auto lg:h-auto lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
+      x-ref="menu">
+      <ul class="flex justify-center gap-6" role="list">
+        {%- for link in section.settings.menu.links -%}
+          {%- if link.links != blank -%}
+          {%- liquid assign index = forloop.index -%}
+            <li class="flex items-center">
+              <header-menu class="flex h-full w-full lg:w-auto" @scroll.window="selected = null">
+                <aw-details class="flex w-full lg:w-auto">
+                  <aw-summary
+                    class="hidden lg:flex items-center relative text-sm leading-5 font-bold uppercase transition-all duration-700 hover:text-orange-light lg:gap-x-1.5 cursor-pointer"
+                    :class="selected === {{ index }} ? 'open' : ''" @click="() => toggleSelected(event, {{ index }})">
+                    <span :class="selected === {{ index }} ? 'rotate-180' : ''">
+                      {% render 'icon', icon: 'arrow-down', class: '!w-4 !h-3.5 text-brown' %}
+                    </span>
+                    <span class="text-brown">
+                      {{- link.title | escape -}}
+                    </span>
+                  </aw-summary>
+                  <div
+                    class="submenu lg:hidden lg:absolute z-[2] left-0 top-full bg-white w-full lg:shadow-[0_12px_30px_rgba(23,25,29,0.3)] lg:py-17"
+                    :class="selected === {{ index }} ? 'lg:!block' : ''" x-ref="submenu" role="list">
+                    <div class="container px-0 lg:px-10 2xl:px-2.5">
+                      <ul class="lg:grid lg:grid-cols-3 lg:gap-x-10 xl:gap-x-15">
+                        {%- for childLink in link.links -%}
+                        {%- liquid assign subMenuIndex = forloop.index -%}
+                        {% assign lastItem = link.links.size | minus: 1 %}
+                        <li class="px-5 pb-[13px] mb-[17px] border-b border-beige lg:px-0 lg:border-b-0">
+                          {%- if childLink.links != blank -%}
+                          <div>
+                            <a href="{{ childLink.url }}" title="{{- childLink.title | escape -}}" {% if childLink.current
+                              %} aria-current="page" {% endif %}
+                              class="text-sm leading-9 uppercase text-gray-dark opacity-50 transition ease-out lg:text-xl lg:leading-8.5 font-heading font-normal lg:font-bold lg:[letter-spacing:-.02em] lg:opacity-100">
+                              {{ childLink.title | escape }}
+                            </a>
+                          </div>
+                          <ul class="lg:columns-2 lg:mt-4.5 lg:pt-4.5 lg:border-t lg:border-beige">
+                            {%- for childchildLink in childLink.links -%}
+                            <li>
+                              <a href="{{ childchildLink.url }}" title="{{- childchildLink.title | escape -}}" {% if
+                                childchildLink.current %} aria-current="page" {% endif %}
+                                class="text-sm leading-9 uppercase lg:normal-case lg:text-base lg:leading-9 text-gray-dark lg:hover:text-orange transition ease-out">
+                                {{ childchildLink.title | escape }}
+                              </a>
+                            </li>
+                            {%- endfor -%}
+                          </ul>
+                          {% else %}
+                          <div>
+                            <a href="{{ childLink.url }}" title="{{- childLink.title | escape -}}" {% if childLink.current
+                              %} aria-current="page" {% endif %}
+                              class="text-sm leading-9 uppercase text-gray-dark opacity-50 transition ease-out lg:text-xl lg:leading-8.5 font-heading font-normal lg:font-bold lg:[letter-spacing:-.02em] lg:opacity-100">
+                              {{ childLink.title | escape }}
+                            </a>
+                          </div>
+                          {%- endif -%}
+                        </li>
+                        {%- endfor -%}
+                        <li class="hidden lg:flex menu-banner">
+                          <div
+                            class="flex relative w-full lg:p-10 xl:p-12.5 before:block before:absolute before:left-0 before:top-0 before:z-[2] before:h-full before:w-full before:bg-gradient-to-b before:from-black/[0.20] before:content-[''] ">
+                            {%- if section_settings.menu_banner != blank -%}
+                            <img src="{{ section_settings.menu_banner | image_url: width: 1080 }}" loading="lazy"
+                              width="500" height="500"
+                              class="block absolute z-[1] left-0 top-0 h-full w-full object-cover object-center"
+                              alt="{{ section_settings.menu_banner.alt }}">
+                            {%- endif -%}
+                            <div class="flex flex-col items-start justify-between relative z-[3]">
+                              <div class="text-4xl font-bold [letter-spacing:-.02em] text-white">{{
+                                section_settings.menu_banner_title }}</div>
+                              <a href="{{ section_settings.menu_banner_url }}"
+                                class="rounded border border-primary bg-primary px-6 py-4 text-sm font-normal uppercase text-white transition-colors hover:border-orange-dark hover:bg-orange-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
+                                title="{{ 'general.header.main-menu.shop-now-link' | t }}">
+                                {{ 'general.header.main-menu.shop-now-link' | t }}
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div class="hidden lg:block py-2 mt-7.5">
+                        <a href="{{ shop_all_products_url }}"
+                          class="shop-all-products-link text-sm leading-6 text-gray-dark uppercase lg:hover:text-orange transition ease-out"
+                          title="{{ 'general.header.main-menu.shop-all-products-link' | t }}">
+                          <span>{{ 'general.header.main-menu.shop-all-products-link' | t }}</span>
+                          {% render 'icon', icon: 'chevron-right', class: 'inline-flex !h-2.75 !w-1.75 ml-3
+                          text-gray-dark' %}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </aw-details>
+              </header-menu>
+            </li>
+          {%- else -%}
+            <li class="flex items-center">
+              <a class="text-sm leading-5 font-bold uppercase transition-all duration-700 hover:text-orange-light"
+                href="{{ link.url }}" title="{{- link.title | escape -}}" {% if link.current %} aria-current="page" {% endif %}>
+                <span>
+                  {{- link.title | escape -}}
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</nav>

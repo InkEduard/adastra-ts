@@ -46,6 +46,7 @@
     <main
       id="MainContent"
       tabindex="-1">
+      {% render 'notices' %}
       {{ content_for_layout }}
     </main>
     {% unless canonical_url contains 'frontend-guide' %}

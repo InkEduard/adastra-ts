@@ -34,6 +34,7 @@ module.exports = {
         red: 'rgba(var(--color-red) / <alpha-value>)', // #ee6452
         'bright-red': 'rgba(var(--color-bright-red) / <alpha-value>)', // #f44336
         'gray-light': 'rgba(var(--color-gray-light) / <alpha-value>)', // #f9f9f9
+        'blue-light': 'rgba(var(--color-blue-light) / <alpha-value>)', // #2564eb
       },
       boxShadow: {
         lg: '0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',

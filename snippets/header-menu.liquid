@@ -1,4 +1,9 @@
-<nav x-data="menu()" class="w-full">
+<nav x-data="menu()" class="flex items-center w-full">
+  <button
+    class="block items-center justify-center h-5 w-5 lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1"
+    @click="$store.menuState.isMenuOpened = true">
+    {% render 'icon', icon: 'burger', class: '!w-6 !h-6' %}
+  </button>
   <div class="menu-mask bg-black bg-opacity-30 z-[118] absolute left-0 w-full h-dvh top-0 hidden"
     :class="{'!block lg:!hidden': $store.menuState.isMenuOpened === true}"
     @click="$store.menuState.isMenuOpened = false" x-ref="menuMask">
@@ -14,15 +19,15 @@
     <div
       class="main-menu w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
       x-ref="menu">
-      <ul class="flex justify-center h-full" role="list">
+      <ul class="flex flex-col h-full lg:flex-row lg:justify-center" role="list">
         {%- for link in section.settings.menu.links -%}
           {%- if link.links != blank -%}
           {%- liquid assign index = forloop.index -%}
             <li class="flex items-center">
               <header-menu class="flex h-full w-full lg:w-auto" @scroll.window="selected = null">
-                <aw-details class="flex w-full lg:w-auto" @mouseleave="() => menuOut(event)">
+                <aw-details class="flex flex-col w-full lg:flex-row lg:w-auto" @mouseleave="() => menuOut(event)">
                   <aw-summary
-                    class="hidden lg:flex items-center relative text-sm leading-5 font-bold text-brown uppercase px-3 py-5 transition-all duration-700 cursor-pointer hover:text-orange-light lg:gap-x-1.5"
+                    class="flex items-center relative text-sm leading-5 font-bold text-brown uppercase px-3 py-5 w-full transition-all duration-700 cursor-pointer hover:text-orange-light lg:gap-x-1.5 lg:w-auto"
                     :class="selected === {{ index }} ? 'open !text-orange-light' : ''"
                     @click="() => toggleSelected(event, {{ index }})"
                     @mouseover="selected !== {{ index }} ? () => toggleSelected(event, {{ index }}) : ''">
@@ -34,10 +39,10 @@
                     </span>
                   </aw-summary>
                   <div
-                    class="submenu hidden lg:absolute z-[2] left-0 top-full bg-white w-full lg:shadow-md lg:py-17"
-                    :class="selected === {{ index }} ? 'lg:!block border-t border-brown/20' : ''" x-ref="submenu" role="list">
+                    class="submenu hidden lg:absolute z-[2] left-0 top-full bg-white w-full lg:shadow-md lg:py-10"
+                    :class="selected === {{ index }} ? '!block lg:border-t lg:border-brown/20' : ''" x-ref="submenu" role="list">
                     <div class="container">
-                      <ul class="lg:grid lg:grid-cols-3 gap-x-5 gap-y-2.5">
+                      <ul class="lg:grid lg:grid-cols-4 gap-x-5 gap-y-2.5">
                         {%- for childLink in link.links -%}
                         <li class="">
                           {%- if childLink.links != blank -%}
@@ -78,7 +83,7 @@
             </li>
           {%- else -%}
             <li class="flex items-center">
-              <a class="flex items-center text-sm leading-5 font-bold uppercase px-3 py-5 h-full transition-all duration-700 hover:text-orange-light"
+              <a class="flex items-center text-sm leading-5 font-bold uppercase px-3 py-5 w-full h-full transition-all duration-700 hover:text-orange-light lg:w-auto"
                 href="{{ link.url }}" title="{{- link.title | escape -}}" {% if link.current %} aria-current="page" {% endif %}>
                 <span>
                   {{- link.title | escape -}}

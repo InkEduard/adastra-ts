@@ -115,10 +115,17 @@ body {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .peer:checked + label span {
   display: block;
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

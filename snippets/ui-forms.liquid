@@ -1,12 +1,12 @@
 {% render 'ui-head', header: 'Forms' %}
 <div class="container flex gap-10 py-20">
-  <div class="w-full max-w-md rounded-large border border-dashed border-blue bg-brown/10 p-8">
+  <div class="w-full max-w-md rounded-large border border-dashed border-blue bg-gray-light p-8">
     <div class="grid grid-cols-1 gap-3.25">
       <label class="flex flex-col">
         <span class="flex items-end justify-between text-brown text-lg leading-normal mb-2">First name <small class="text-xs uppercase">Required</small></span>
         <input
           type="text"
-          class="block w-full text-lg leading-6 text-brown px-5 py-3 rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
+          class="block w-full text-lg leading-6 text-brown px-5 py-3 rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
           placeholder="First name"
         >
       </label>
@@ -14,13 +14,13 @@
         <span class="flex items-end justify-between text-brown text-lg leading-normal mb-2">Email address <small class="text-xs uppercase">Required</small></span>
         <input
           type="email"
-          class="block w-full text-lg leading-6 text-brown px-5 py-3 rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
+          class="block w-full text-lg leading-6 text-brown px-5 py-3 rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
           placeholder="john@example.com"
         >
       </label>
       <label class="flex flex-col">
         <span class="flex items-end justify-between text-brown text-lg leading-normal mb-2">Country <small class="text-xs uppercase">Required</small></span>
-        <select class="block w-full text-lg leading-6 text-brown py-3 pr-13.5 pl-5 rounded bg-[right_15px_center] bg-[length:18px_18px] border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white">
+        <select class="block w-full text-lg leading-6 text-brown py-3 pr-13.5 pl-5 rounded bg-[right_15px_center] bg-[length:18px_18px] border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white">
           <option>United States</option>
           <option>Ukraine</option>
           <option>Portugal</option>
@@ -29,7 +29,7 @@
       <label class="flex flex-col">
         <span class="flex items-end justify-between text-brown text-lg leading-normal mb-2">Additional details <small class="text-xs uppercase">Required</small></span>
         <textarea
-          class="block w-full h-35 text-lg leading-6 text-brown px-5 py-3 resize-none rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
+          class="block w-full h-35 text-lg leading-6 text-brown px-5 py-3 resize-none rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
           rows="3"
           spellcheck="false"
         ></textarea>
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="flex w-full max-w-md flex-col gap-10">
-    <div class="rounded-large border border-dashed border-blue bg-brown/10 p-8">
+    <div class="rounded-large border border-dashed border-blue bg-gray-light p-8">
       <div class="grid grid-cols-1 gap-3.25">
         <div class="flex">
           <input
@@ -48,9 +48,9 @@
           >
           <label
             for="checkbox"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
-            {% render 'icon', icon: 'check-fill', class: 'hidden absolute w-5 !h-5 top-0 left-0 !text-white' %}
+            {% render 'icon', icon: 'check', class: 'hidden absolute w-4.5 !h-4.5 top-px left-0 !text-white' %}
             <span class="ml-2 text-lg leading-normal">Default checkbox</span>
           </label>
         </div>
@@ -62,9 +62,9 @@
           >
           <label
             for="checkbox-unchecked"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
-            {% render 'icon', icon: 'check-fill', class: 'hidden absolute w-5 !h-5 top-0 left-0 !text-white' %}
+            {% render 'icon', icon: 'check', class: 'hidden absolute w-4.5 !h-4.5 top-px left-0 !text-white' %}
             <span class="ml-2 text-lg leading-normal">Unchecked checkbox</span>
           </label>
         </div>
@@ -77,15 +77,15 @@
           >
           <label
             for="checkbox-disabled"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:rounded-[6px] before:shrink-0 before:border before:border-brown before:bg-white before:content-[''] peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
-            {% render 'icon', icon: 'check-fill', class: 'hidden absolute w-5 !h-5 top-0 left-0 !text-white' %}
+            {% render 'icon', icon: 'check', class: 'hidden absolute !w-4.5 !h-4.5 top-px left-0 !text-white' %}
             <span class="ml-2 text-lg leading-normal">Disabled checkbox</span>
           </label>
         </div>
       </div>
     </div>
-    <div class="rounded-large border border-dashed border-blue bg-brown/10 p-8">
+    <div class="rounded-large border border-dashed border-blue bg-gray-light p-8">
       <div class="grid grid-cols-1 gap-3.25">
         <div class="flex">
           <input
@@ -96,7 +96,7 @@
           >
           <label
             for="radio"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-orange peer-checked:before:border-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
             <span class="ml-2 text-lg leading-normal">Default radio</span>
           </label>
@@ -109,7 +109,7 @@
           >
           <label
             for="radio-unchecked"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-orange peer-checked:before:border-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
             <span class="ml-2 text-lg leading-normal">Unchecked radio</span>
           </label>
@@ -123,19 +123,19 @@
           >
           <label
             for="radio-disabled"
-            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-orange peer-checked:before:border-orange peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
+            class="relative inline-flex h-5 cursor-pointer select-none items-center before:flex before:h-5 before:w-5 before:shrink-0 before:rounded-full before:border before:border-brown before:content-[''] after:absolute after:left-1.25 after:top-1.25 after:hidden after:h-2.5 after:w-2.5 after:rounded-full after:bg-white peer-checked:after:!flex peer-checked:before:bg-green-light peer-checked:before:border-green-light peer-focus:before:outline-none peer-focus:before:ring-offset-1 peer-focus:before:ring-2 peer-focus:before:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:before:border-brown"
           >
             <span class="ml-2 text-lg leading-normal">Disabled radio</span>
           </label>
         </div>
       </div>
     </div>
-    <div class="rounded-large border border-dashed border-blue bg-brown/10 p-8">
+    <div class="rounded-large border border-dashed border-blue bg-gray-light p-8">
       <div class="grid grid-cols-1 gap-3.25">
         <label class="relative inline-flex cursor-pointer select-none items-center">
           <input type="checkbox" class="peer sr-only">
           <div
-            class="peer h-7.5 w-15 rounded-full bg-gray after:absolute after:start-0.75 after:top-0.75 after:h-6 after:w-6 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-7.5 peer-focus:outline-none peer-focus:ring-offset-1 peer-focus:ring-2 peer-focus:ring-blue-light peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:border-brown"
+            class="peer h-7.5 w-15 rounded-full bg-red border border-red after:absolute after:start-0.75 after:top-0.75 after:h-6 after:w-6 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-light peer-checked:border-green-light peer-checked:after:translate-x-7.5 peer-focus:outline-none peer-focus:ring-offset-1 peer-focus:ring-2 peer-focus:ring-blue-light/60 peer-disabled:cursor-default peer-disabled:opacity-50 peer-disabled:border-brown"
           ></div>
           <span class="ml-2 text-lg leading-normal">Switcher</span>
         </label>

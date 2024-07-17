@@ -9,6 +9,10 @@ const init = async () => {
     Alpine.plugin(Menu);
   }
 
+  const { default: Notices } = await import('~/components/notices');
+
+  Alpine.plugin(Notices);
+
   // if (document.querySelector('[x-data*="swiper"]')) {
   //   const { default: Swiper } = await import('~/components/swiper');
 

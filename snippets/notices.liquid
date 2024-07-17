@@ -1,0 +1,57 @@
+{% comment %}
+  Renders a set of notices.
+
+  Usage:
+  {% render 'notices' %}
+{% endcomment %}
+
+<div
+  @click.stop
+  x-data="notices"
+  x-show="visible.length > 0"
+  x-transition:enter="transition ease-in duration-200"
+  x-transition:enter-start="transform opacity-0 -translate-y-2"
+  x-transition:enter-end="transform opacity-100"
+  class="fixed left-5 right-5 top-[110px] z-[10000] flex flex-col items-start justify-start gap-2.5 transition lg:left-auto lg:right-0 lg:top-[120px]"
+  @notice.window="addNotice($event.detail)"
+  style="pointer-events:none"
+>
+  <template x-for="notice of notices" :key="notice.id">
+    <div
+      x-show="visible.includes(notice)"
+      x-transition:leave="transition ease-out duration-400"
+      x-transition:leave-start="transform translate-x-0 opacity-100"
+      x-transition:leave-end="transform translate-x-full opacity-0"
+      class="flex w-full items-center justify-start gap-3.5 p-5 shadow-xs rounded-l lg:w-[338px]"
+      :class="
+        {
+          'bg-green-light': notice.type === 'success',
+          'bg-orange': notice.type === 'warning',
+          'bg-blue-light': notice.type === 'info',
+          'bg-red': notice.type === 'error',
+        }
+      "
+      style="pointer-events:all"
+    >
+      <span x-cloack x-show="notice.type === 'success'">
+        {% render 'icon', icon: 'check-accent', class: '!w-4.5 !h-4.5 text-white' %}
+      </span>
+      <span x-cloack x-show="notice.type === 'info'">
+        {% render 'icon', icon: 'info', class: '!w-4.5 !h-4.5 text-white' %}
+      </span>
+      <span x-cloack x-show="notice.type === 'warning'">
+        {% render 'icon', icon: 'warning', class: '!w-4.5 !h-4.5 text-white' %}
+      </span>
+      <span x-cloack x-show="notice.type === 'error'">
+        {% render 'icon', icon: 'info-hex', class: '!w-4.5 !h-4.5 text-white' %}
+      </span>
+      <span
+        class="text-xs leading-5 text-white"
+        x-text="notice.text"
+      ></span>
+      <button @click="removeNotice(notice.id)" class="ml-auto">
+        {% render 'icon', icon: 'close', class: '!w-2.5 !h-2.5 text-white' %}
+      </button>
+    </div>
+  </template>
+</div>

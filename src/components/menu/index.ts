@@ -8,6 +8,7 @@ export default (Alpine: AlpineType) => {
   Alpine.data('menu', () => ({
     selected: null as null | string,
     breakpoint: 1279,
+    breakpointMobile: 1023,
 
     toggleSelected(event: Event, index: string) {
       if (event.type === 'mouseover' && window.innerWidth < this.breakpoint) return;
@@ -20,6 +21,12 @@ export default (Alpine: AlpineType) => {
       if (event.type === 'mouseleave' && window.innerWidth < this.breakpoint) return;
 
       this.selected = null;
-  }
+    },
+
+    desktopCloseMenu() {
+      if (window.innerWidth > this.breakpointMobile) {
+        this.selected = null;
+      }
+    }
   }));
 };

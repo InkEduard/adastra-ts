@@ -5,6 +5,9 @@
     "footer": {
       "type": "footer",
       "settings": {
+        "newsletter_enable": true,
+        "menu": "footer",
+        "copyright": "Ink Edy"
       }
     }
   },

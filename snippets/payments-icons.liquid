@@ -1,0 +1,38 @@
+{% comment %}
+  Renders social icons.
+  Accepts:
+  - class: {String} a class to be added to the <ul> element (optional).
+
+  Usage:
+  {% render 'payments-icons',
+    class: 'my-class'
+  %}
+{% endcomment %}
+
+<ul class="payments-icons flex gap-1 {% if class %} {{ class}}{% endif %}" role="list">
+  <li>
+    <div class="block">
+      {% render 'icon', icon: 'visa', class: '!w-[25px] !h-5 !text-white' %}
+    </div>
+  </li>
+  <li>
+    <div class="block">
+      {% render 'icon', icon: 'mastercard', class: '!w-[25px] !h-5 !text-white' %}
+    </div>
+  </li>
+  <li>
+    <div class="block">
+      {% render 'icon', icon: 'amex', class: '!w-[25px] !h-5 !text-white' %}
+    </div>
+  </li>
+  <li>
+    <div class="block">
+      {% render 'icon', icon: 'paypal', class: '!w-[25px] !h-5 !text-white' %}
+    </div>
+  </li>
+  <li>
+    <div class="block">
+      {% render 'icon', icon: 'discover', class: '!w-[25px] !h-5 !text-white' %}
+    </div>
+  </li>
+</ul>

@@ -17,9 +17,10 @@
       {% render 'icon', icon: 'close', class: '!w-5 !h-5 ' %}
     </button>
     <div
-      class="main-menu w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
+      class="main-menu flex flex-col w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
       x-ref="menu">
-      <ul class="flex flex-col h-full pt-12.5 lg:flex-row lg:justify-center lg:pt-0" role="list">
+      <div class="text-base font-bold font-heading text-green-light px-2.5 py-3.75 lg:hidden">Menu</div>
+      <ul class="flex flex-col lg:flex-row lg:justify-center lg:h-full lg:pt-0" role="list">
         {%- for link in section.settings.menu.links -%}
           {%- if link.links != blank -%}
             {%- liquid assign index = forloop.index -%}
@@ -82,6 +83,16 @@
           {%- endif -%}
         {%- endfor -%}
       </ul>
+      <div class="mt-auto mb-3 lg:hidden">
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          title="Account"
+          class="inline-flex items-center gap-2.5 text-sm leading-5 font-bold px-2.5 py-3 uppercase text-brown transition-colors hover:text-orange-light"
+        >
+          {% render 'icon', icon: 'user', class: '!h-6 !w-6' %}
+          <span>Account</span>
+        </a>
+      </div>
     </div>
   </div>
 </nav>

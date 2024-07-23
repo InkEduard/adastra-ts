@@ -39,12 +39,12 @@
           <div class="header__links flex items-center justify-end lg:order-3 w-2/5 lg:w-1/4">
             <div class="flex items-center">
               <a
-                  href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-                  title="Account"
-                  class="ml-6.5 inline-flex items-center gap-1.25 text-xxs uppercase text-brown transition-colors hover:text-orange-light"
-                >
-                  {% render 'icon', icon: 'user', class: '!h-6 !w-6' %}
-                </a>
+                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                title="Account"
+                class="ml-6.5 inline-flex items-center gap-1.25 text-xxs uppercase text-brown transition-colors hover:text-orange-light"
+              >
+                {% render 'icon', icon: 'user', class: '!h-6 !w-6' %}
+              </a>
               <a
                 href="{{ routes.cart_url }}"
                 @click.prevent="$store.cartDrawer.showMinicart = true, $store.cartDrawer.active = true"

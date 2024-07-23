@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "adastra dev --theme-editor-sync --store=https://ink-edy-store.myshopify.com",
     "theme:create": "shopify theme push -u --ignore assets/adastra.manifest.json --ignore package.json --ignore pnpm-lock.yaml --ignore ./*.config.* --ignore node_modules --ignore apps/* --ignore tsconfig.json",
-    "theme:push": "shopify theme push --ignore assets/adastra.manifest.json --ignore package.json --ignore pnpm-lock.yaml --ignore ./*.config.* --ignore node_modules --ignore apps/* --ignore tsconfig.json -t",
+    "theme:push": "shopify theme push --ignore assets/adastra.manifest.json --ignore package.json --ignore pnpm-lock.yaml --ignore ./*.config.* --ignore node_modules --ignore apps/* --ignore tsconfig.json",
     "build": "adastra build",
     "preview": "adastra preview",
     "check": "adastra check",

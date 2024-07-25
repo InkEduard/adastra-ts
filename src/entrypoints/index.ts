@@ -13,6 +13,12 @@ const init = async () => {
 
   Alpine.plugin(Notices);
 
+  if (document.querySelector('[x-data*="swiper"]')) {
+    const { default: Swiper } = await import('~/components/swiper');
+
+    Alpine.plugin(Swiper);
+  }
+
   // if (document.querySelector('[x-data*="swiper"]')) {
   //   const { default: Swiper } = await import('~/components/swiper');
 

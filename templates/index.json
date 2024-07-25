@@ -1,9 +1,44 @@
 {
   "sections": {
-    "main": {
-      "type": "banner-homepage",
-      "settings": {}
+    "banner-hp": {
+      "type": "banner-hp",
+      "blocks": {
+        "column_7RAcDA": {
+          "type": "column",
+          "settings": {
+            "is_video": "image",
+            "image_desktop": "shopify:\/\/shop_images\/hp-banner.jpg",
+            "title": "Atypical goods",
+            "title_font_size_desktop": 70,
+            "title_line_height_desktop": 70,
+            "title_font_size_mobile": 30,
+            "title_line_height_mobile": 34,
+            "title_color": "#ffffff",
+            "description": "<p>Industrial design meets fashion.<\/p>",
+            "description_font_size_desktop": 24,
+            "description_line_height_desktop": 32,
+            "description_font_size_mobile": 14,
+            "description_line_height_mobile": 16,
+            "description_color": "#ffffff",
+            "is_external_link": false,
+            "button_url": "",
+            "button_text": "",
+            "main_button_color": "black",
+            "is_external_link_additional": false,
+            "button_url_additional": "",
+            "button_text_additional": "",
+            "additional_button_color": "black"
+          }
+        }
+      },
+      "block_order": [
+        "column_7RAcDA"
+      ],
+      "settings": {
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "banner-hp"
+  ]
 }

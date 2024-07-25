@@ -10,16 +10,18 @@
   </div>
   <div class="fixed z-[119] top-0 left-0 h-full w-full -translate-x-full transition ease-out lg:z-[9] lg:static lg:!translate-x-[initial]"
     :class="{'!translate-x-0': $store.menuState.isMenuOpened === true}">
-    <button
-      class="lg:hidden items-center justify-center absolute right-2 top-4 z-[120] h-5 w-5 focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1"
-      :class="$store.menuState.isMenuOpened === true ? '!flex lg:!hidden' : ''"
-      @click="$store.menuState.isMenuOpened = false">
-      {% render 'icon', icon: 'close', class: '!w-5 !h-5 ' %}
-    </button>
     <div
       class="main-menu flex flex-col w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
       x-ref="menu">
-      <div class="text-base font-bold font-heading text-green-light px-2.5 py-3.75 lg:hidden">Menu</div>
+      <div class="relative text-base font-bold font-heading text-green-light px-2.5 py-3.75 lg:hidden">
+        <span>Menu</span>
+        <button
+          class="lg:hidden items-center justify-center absolute right-2 top-4 z-[120] h-5 w-5 focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1"
+          :class="$store.menuState.isMenuOpened === true ? '!flex lg:!hidden' : ''"
+          @click="$store.menuState.isMenuOpened = false">
+          {% render 'icon', icon: 'close', class: '!w-5 !h-5 text-brown' %}
+        </button>
+      </div>
       <ul class="flex flex-col lg:flex-row lg:justify-center lg:h-full lg:pt-0" role="list">
         {%- for link in section.settings.menu.links -%}
           {%- if link.links != blank -%}
@@ -40,10 +42,15 @@
                     </span>
                   </aw-summary>
                   <div
-                    class="submenu hidden lg:absolute z-[2] left-0 top-full bg-white w-full lg:shadow-md lg:py-10 lg:border-t lg:border-brown/20"
-                    :class="selected === {{ index }} ? '!block lg:border-t lg:border-brown/20' : ''" x-ref="submenu" role="list">
+                    x-ref="content_{{ index }}"
+                    style
+                    x-bind:style="selected == {{ index }} ? 'max-height: ' + $refs.content_{{ index }}.scrollHeight + 'px' : ''"
+                    x-cloak
+                    x-transition
+                    class="submenu overflow-hidden transition-all max-h-0 duration-700 lg:absolute z-[2] left-0 top-full bg-white w-full lg:!max-h-[initial] lg:hidden lg:shadow-md lg:border-t lg:border-brown/20"
+                    :class="selected === {{ index }} ? 'lg:!block' : ''" x-ref="submenu" role="list">
                     <div class="container">
-                      <ul class="grid gap-x-2.5 lg:grid-cols-4 lg:gap-x-5 gap-y-2.5">
+                      <ul class="grid gap-x-2.5 lg:grid-cols-4 lg:gap-x-5 gap-y-2.5 lg:py-10">
                         {%- for childLink in link.links -%}
                           {%- assign link_type = childLink.type -%}
                           {%- assign link_object = childLink.object -%}
@@ -51,7 +58,7 @@
                             <div class="flex relative">
                               <a href="{{ childLink.url }}" title="{{- childLink.title | escape -}}" {% if childLink.current
                                 %} aria-current="page" {% endif %}
-                                class="child-link flex items-center justify-center h-20 overflow-hidden relative text-sm text-white uppercase transition ease-out rounded-lg border border-dashed border-brown/20 w-full px-5 py-2.5 font-heading before:content-['']  before:block before:absolute before:left-0.5 before:top-0.5 before:z-[2] before:w-[calc(100%-4px)] before:h-[calc(100%-4px)] before:rounded-md before:bg-black before:opacity-25 before:transition-all before:duration-700 lg:text-lg lg:font-bold">
+                                class="child-link flex items-center justify-center h-20 overflow-hidden relative text-sm text-white uppercase transition ease-out rounded-lg border border-dashed border-brown/20 w-full px-5 py-2.5 font-heading lg:before:content-[''] lg:before:block lg:before:absolute lg:before:left-0.5 lg:before:top-0.5 lg:before:z-[2] lg:before:w-[calc(100%-4px)] lg:before:h-[calc(100%-4px)] lg:before:rounded-md lg:before:bg-black lg:before:opacity-25 lg:before:transition-all lg:before:duration-700 lg:text-lg lg:font-bold">
                                 <span class="relative z-[3]">{{ childLink.title | escape }}</span>
                                 {%- if link_type == 'collection_link' and link_object.image != blank -%}
                                   <img
@@ -108,9 +115,10 @@
     color: rgba(var(--color-orange-light) / 1);
   }
 
-  .child-link:hover:before {
-    background-color: rgba(var(--color-green-light) / 1);
-    opacity: 0.85;
-    /* opacity: 0.5; */
+  @media (min-width: 768px) {
+    .child-link:hover:before {
+      background-color: rgba(var(--color-green-light) / 1);
+      opacity: 0.85;
+    }
   }
 {% endstyle %}

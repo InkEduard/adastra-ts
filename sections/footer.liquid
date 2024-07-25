@@ -2,7 +2,7 @@
   <div class="container">
     <div class="grid grid-cols-4 gap-y-6 gap-x-5 lg:gap-y-10 md:grid-cols-12">
       {%- assign quick_links = 'quick_links' -%}
-      {% if linklists[quick_links] != blank %}
+      {% if section.settings.quick_links != blank %}
         <div
           class="col-span-4 order-2 md:col-span-12 lg:order-1 lg:col-span-3"
           x-data="{ isOpen: false }">
@@ -21,7 +21,7 @@
             x-cloak
             x-transition>
             <ul class="footer-navigation flex flex-col gap-4 pt-5 lg:pt-0">
-              {%- for link in linklists[quick_links].links -%}
+              {%- for link in section.settings.quick_links.links -%}
                 <li>
                   <a class="text-white text-sm transition-all duration-700 hover:text-orange-light" href="{{ link.url }}" title="{{- link.title | escape -}}">{{ link.title }}</a>
                 </li>
@@ -128,7 +128,7 @@
           &copy; {{ 'now' | date: '%Y' }} {% if section.settings.copyright != blank %}{{ section.settings.copyright }}{% else %}{{ shop.name }}{% endif %}
         </p>
 
-        {% render 'payments-icons', color: 'text-white' %}
+        {% render 'payments-icons', color: 'text-white', section_settings: section.settings %}
       </div>
     </div>
   {%- endif -%}
@@ -172,13 +172,54 @@
         "type": "link_list",
         "id": "menu",
         "default": "footer",
-        "label": "Menu",
+        "label": "Menu info",
         "info": "Displays only top-level menu items."
+      },
+      {
+        "type": "link_list",
+        "id": "quick_links",
+        "default": "footer",
+        "label": "Quick links",
+        "info": "Displays only top-level quick links items."
       },
       {
         "type": "text",
         "id": "copyright",
         "label": "Footer copyright text"
+      },
+      {
+        "type": "header",
+        "content": "Payments icons"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_visa",
+        "default": true,
+        "label": "Show Visa icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_mastercard",
+        "default": true,
+        "label": "Show Mastercard icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_amex",
+        "default": true,
+        "label": "Show Amex icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_paypal",
+        "default": true,
+        "label": "Show PayPal icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_discover",
+        "default": true,
+        "label": "Show Discover icon"
       }
     ]
   }

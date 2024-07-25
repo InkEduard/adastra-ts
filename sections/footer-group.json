@@ -16,7 +16,13 @@
       "settings": {
         "newsletter_enable": true,
         "menu": "footer",
-        "copyright": "Ink Edy"
+        "quick_links": "quick_links",
+        "copyright": "Ink Edy",
+        "show_visa": true,
+        "show_mastercard": true,
+        "show_amex": true,
+        "show_paypal": true,
+        "show_discover": true
       }
     }
   },

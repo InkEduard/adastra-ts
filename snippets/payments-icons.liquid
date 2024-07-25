@@ -10,29 +10,39 @@
 {% endcomment %}
 
 <ul class="payments-icons flex gap-1 {% if class %} {{ class}}{% endif %}" role="list">
-  <li>
-    <div class="block">
-      {% render 'icon', icon: 'visa', class: '!w-[25px] !h-5 !text-white' %}
-    </div>
-  </li>
-  <li>
-    <div class="block">
-      {% render 'icon', icon: 'mastercard', class: '!w-[25px] !h-5 !text-white' %}
-    </div>
-  </li>
-  <li>
-    <div class="block">
-      {% render 'icon', icon: 'amex', class: '!w-[25px] !h-5 !text-white' %}
-    </div>
-  </li>
-  <li>
-    <div class="block">
-      {% render 'icon', icon: 'paypal', class: '!w-[25px] !h-5 !text-white' %}
-    </div>
-  </li>
-  <li>
-    <div class="block">
-      {% render 'icon', icon: 'discover', class: '!w-[25px] !h-5 !text-white' %}
-    </div>
-  </li>
+  {% if section_settings.show_visa %}
+    <li>
+      <div class="block">
+        {% render 'icon', icon: 'visa', class: '!w-[25px] !h-5 !text-white' %}
+      </div>
+    </li>
+  {% endif %}
+  {% if section_settings.show_mastercard %}
+    <li>
+      <div class="block">
+        {% render 'icon', icon: 'mastercard', class: '!w-[25px] !h-5 !text-white' %}
+      </div>
+    </li>
+  {% endif %}
+  {% if section_settings.show_amex %}
+    <li>
+      <div class="block">
+        {% render 'icon', icon: 'amex', class: '!w-[25px] !h-5 !text-white' %}
+      </div>
+    </li>
+  {% endif %}
+  {% if section_settings.show_paypal %}
+    <li>
+      <div class="block">
+        {% render 'icon', icon: 'paypal', class: '!w-[25px] !h-5 !text-white' %}
+      </div>
+    </li>
+  {% endif %}
+  {% if section_settings.show_discover %}
+    <li>
+      <div class="block">
+        {% render 'icon', icon: 'discover', class: '!w-[25px] !h-5 !text-white' %}
+      </div>
+    </li>
+  {% endif %}
 </ul>

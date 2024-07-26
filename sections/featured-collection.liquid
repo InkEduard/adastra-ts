@@ -17,9 +17,9 @@
       data-id="{{ section.id }}"
     >
       <div class="container {% if section.settings.full_width == true %} !max-w-full{% endif %}">
-        <div class="collection__title flex flex-col gap-3.5">
+        <div class="collection__title flex flex-col gap-2 md:gap-3.5">
           {%- if section.settings.title != blank -%}
-            <h2 class="text-center text-green-light">
+            <h2 class="text-3xl md:text-6xl text-center text-green-light">
               {{ section.settings.title }}
             </h2>
           {%- endif -%}
@@ -35,7 +35,7 @@
           {%- endif -%}
         </div>
 
-        <div class="{% if section.settings.title != blank or section.settings.description != blank %}mt-10{%- endif -%}">
+        <div class="{% if section.settings.title != blank or section.settings.description != blank %}mt-7.5 md:mt-10{%- endif -%}">
           <div
             class="swiper banner-hp-slider mx-1.25 mt-1.25 md:mx-2.5 md:mt-2.5"
             x-data="
@@ -107,7 +107,7 @@
     margin-bottom: {{ section.settings.margin_bottom_desktop }}px;
   }
 
-  @media screen and (mim-width: 768px) {
+  @media screen and (max-width: 768px) {
     .featured-collection__wrapper {
       margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
     }
@@ -142,7 +142,7 @@
     {
       "type": "range",
       "id": "products_to_show_desktop",
-      "min": 2,
+      "min": 1,
       "max": 25,
       "step": 1,
       "default": 4,
@@ -151,7 +151,7 @@
     {
       "type": "range",
       "id": "products_to_show_tablet",
-      "min": 2,
+      "min": 1,
       "max": 25,
       "step": 1,
       "default": 3,
@@ -160,7 +160,7 @@
     {
       "type": "range",
       "id": "products_to_show_mobile",
-      "min": 2,
+      "min": 1,
       "max": 25,
       "step": 1,
       "default": 2,

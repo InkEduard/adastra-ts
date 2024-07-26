@@ -1,6 +1,6 @@
-<section class="relative mb-14 md:mb-28 banner-hp">
+<section class="relative px-1.25 pt-1.25 md:px-2.5 md:pt-2.5 banner-hp">
   <div
-    class="swiper banner-hp-slider mx-1.25 mt-1.25 md:mx-2.5 md:mt-2.5"
+    class="swiper banner-hp-slider"
     x-data="
       swiper({
         loop: true,
@@ -59,8 +59,8 @@
               {%- endif -%}
             {%- endif -%}
           </div>
-          <div class="relative z-10 flex min-h-[270px] w-full items-center md:min-h-[800px] {%- if block.settings.is_video == 'video' -%} aspect-[16/9]{%- endif -%}">
-            <div class="container max-w-full">
+          <div class="relative z-10 flex min-h-[220px] w-full items-center md:min-h-[600px] lg:min-h-[800px] {%- if block.settings.is_video == 'video' -%} aspect-[16/9]{%- endif -%}">
+            <div class="container">
               <div class="banner-hp__content-{{ index }} flex flex-col">
                 {%- if block.settings.title != blank -%}
                   <h1 class="banner-hp__title mb-3 text-center text-4xl font-bold uppercase md:mb-5 md:text-6xl xl:mb-6 xl:text-7xl">{{ block.settings.title }}</h1>
@@ -183,7 +183,7 @@
       class="hidden w-full grid-cols-12"
       :class="{'!grid': isVisiblePagination}">
       <div class="col-span-12 xl:col-span-10 xl:col-start-2">
-        <div class="container max-w-full">
+        <div class="container">
           <div class="grid grid-cols-4 gap-5 md:grid-cols-12 ">
             <div class="relative col-span-4 col-start-1 md:col-span-7 md:col-start-2 lg:col-span-4 lg:col-start-2 xl:col-start-1">
               <div
@@ -197,9 +197,47 @@
   </div>
 </section>
 
+{% style %}
+  .banner-hp {
+    margin-bottom: {{ section.settings.margin_bottom_desktop }}px;
+  }
+
+  @media screen and (mim-width: 768px) {
+    .banner-hp {
+      margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
 {% schema %}
   {
     "name": "HP Top Banner",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section indent"
+      },
+      {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Section indent bottom on desktop",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Section indent bottom on mobile",
+      "default": 0
+    }
+    ],
     "blocks": [
       {
         "type": "column",

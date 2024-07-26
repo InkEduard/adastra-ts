@@ -1,4 +1,5 @@
 import { Alpine as AlpineType } from 'alpinejs';
+import 'swiper/css';
 import Swiper from 'swiper';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import type { SwiperOptions } from 'swiper/types/swiper-options';

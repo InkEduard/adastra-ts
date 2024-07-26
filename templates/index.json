@@ -36,14 +36,14 @@
       ],
       "settings": {
         "margin_bottom_desktop": 80,
-        "margin_bottom_mobile": 50
+        "margin_bottom_mobile": 40
       }
     },
     "featured_collection_zaPTXy": {
       "type": "featured-collection",
       "settings": {
-        "title": "Title featured collection",
-        "description": "<p>Description featured collection<\/p>",
+        "title": "Featured collection",
+        "description": "<p>Description of the recommended collection<\/p>",
         "collection": "bags",
         "products_to_show_desktop": 4,
         "products_to_show_tablet": 3,
@@ -55,7 +55,7 @@
         "show_rating": false,
         "quick_add": false,
         "margin_bottom_desktop": 80,
-        "margin_bottom_mobile": 0
+        "margin_bottom_mobile": 40
       }
     }
   },

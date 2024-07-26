@@ -13,20 +13,20 @@
     <div
       class="main-menu flex flex-col w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
       x-ref="menu">
-      <div class="relative text-base font-bold font-heading text-green-light px-2.5 py-3.75 lg:hidden">
+      <div class="relative text-base font-bold font-heading bg-green-light text-white px-2.5 py-3.75 lg:hidden">
         <span>Menu</span>
         <button
           class="lg:hidden items-center justify-center absolute right-2 top-4 z-[120] h-5 w-5 focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1"
           :class="$store.menuState.isMenuOpened === true ? '!flex lg:!hidden' : ''"
           @click="$store.menuState.isMenuOpened = false">
-          {% render 'icon', icon: 'close', class: '!w-5 !h-5 text-brown' %}
+          {% render 'icon', icon: 'close', class: '!w-5 !h-5 text-white' %}
         </button>
       </div>
-      <ul class="flex flex-col lg:flex-row lg:justify-center lg:h-full lg:pt-0" role="list">
+      <ul class="flex flex-col pt-3.5 lg:flex-row lg:justify-center lg:h-full lg:pt-0" role="list">
         {%- for link in section.settings.menu.links -%}
           {%- if link.links != blank -%}
             {%- liquid assign index = forloop.index -%}
-            <li class="flex items-center first:border-t first:border-brown/20 first:lg:border-0">
+            <li class="flex items-center">
               <header-menu class="flex h-full w-full lg:w-auto" @scroll.window="desktopCloseMenu()">
                 <aw-details class="flex flex-col w-full lg:flex-row lg:w-auto" @mouseleave="() => menuOut(event)">
                   <aw-summary
@@ -50,7 +50,7 @@
                     class="submenu overflow-hidden transition-all max-h-0 duration-700 lg:absolute z-[2] left-0 top-full bg-white w-full lg:!max-h-[initial] lg:hidden lg:shadow-md lg:border-t lg:border-brown/20"
                     :class="selected === {{ index }} ? 'lg:!block' : ''" x-ref="submenu" role="list">
                     <div class="container">
-                      <ul class="grid gap-x-2.5 lg:grid-cols-4 lg:gap-x-5 gap-y-2.5 lg:py-10">
+                      <ul class="grid gap-x-2.5 pb-3.5 lg:grid-cols-4 lg:gap-x-5 gap-y-2.5 lg:py-10">
                         {%- for childLink in link.links -%}
                           {%- assign link_type = childLink.type -%}
                           {%- assign link_object = childLink.object -%}
@@ -90,7 +90,7 @@
           {%- endif -%}
         {%- endfor -%}
       </ul>
-      <div class="mt-auto mb-3 lg:hidden">
+      <div class="mt-auto py-3 border-t border-dashed border-brown/20 lg:hidden">
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           title="Account"

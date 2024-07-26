@@ -35,10 +35,32 @@
         "column_7RAcDA"
       ],
       "settings": {
+        "margin_bottom_desktop": 80,
+        "margin_bottom_mobile": 50
+      }
+    },
+    "featured_collection_zaPTXy": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Title featured collection",
+        "description": "<p>Description featured collection<\/p>",
+        "collection": "bags",
+        "products_to_show_desktop": 4,
+        "products_to_show_tablet": 3,
+        "products_to_show_mobile": 2,
+        "full_width": false,
+        "show_view_all": true,
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": false,
+        "margin_bottom_desktop": 80,
+        "margin_bottom_mobile": 0
       }
     }
   },
   "order": [
-    "banner-hp"
+    "banner-hp",
+    "featured_collection_zaPTXy"
   ]
 }

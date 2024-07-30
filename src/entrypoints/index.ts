@@ -19,6 +19,12 @@ const init = async () => {
     Alpine.plugin(Swiper);
   }
 
+  // if (document.querySelector('[x-data*="filterForm"]')) {
+  //   const { default: Filter } = await import('~/components/filter');
+
+  //   Alpine.plugin(Filter);
+  // }
+
   // if (document.querySelector('[x-data*="swiper"]')) {
   //   const { default: Swiper } = await import('~/components/swiper');
 

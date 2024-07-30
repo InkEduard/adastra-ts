@@ -266,7 +266,7 @@
                   {%- if horizontal_quick_add -%}
                     <span class="icon-wrap">{% render 'icon', icon: 'arrow-right', class: '!w-4 !h-3.5 text-brown' %}</span>
                   {%- endif -%}
-                  {% comment %} {%- render 'loading-spinner' -%} {% endcomment %} loader
+                  {%- render 'loading-spinner' -%}
                 </button>
               </modal-opener>
               <quick-add-modal id="QuickAdd-{{ card_product.id }}" class="quick-add-modal">
@@ -332,7 +332,7 @@
                     {%- if horizontal_quick_add -%}
                       <span class="icon-wrap">+</span>
                     {%- endif -%}
-                    {% comment %} {%- render 'loading-spinner' -%} {% endcomment %}loader
+                    {%- render 'loading-spinner' -%}
                   </button>
                 {%- endform -%}
               </product-form>
@@ -388,7 +388,7 @@
                   data-product-url="{{ card_product.url }}"
                 >
                   {{ 'products.product.choose_options' | t }}
-                  {% comment %} {%- render 'loading-spinner' -%} {% endcomment %} loader
+                  {%- render 'loading-spinner' -%}
                 </button>
               </modal-opener>
               <modal-dialog

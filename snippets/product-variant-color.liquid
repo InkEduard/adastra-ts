@@ -1,0 +1,19 @@
+{% comment %}
+  Renders variants
+
+  Accepts:
+  - value: {String} Color value
+  - product: {Object}
+
+  Usage:
+  {% render 'product-variant-color', value: string, product: product %}
+{% endcomment %}
+
+{% for variant_color in product.metafields.custom.variant_color.value %}
+  {% assign color_name = variant_color.name | downcase %}
+
+  {% if color_name == value %}
+    style="{% if variant_color.color %}background-color: {{ variant_color.color }};{% endif -%}
+    {%- if variant_color.image %}background-image: url({{ variant_color.image | image_url: width: 85 }}){% endif %}"
+  {% endif %}
+{% endfor %}

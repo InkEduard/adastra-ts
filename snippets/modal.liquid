@@ -1,0 +1,43 @@
+{% comment %}
+  Renders popup.
+
+  Accepts:
+  - id: {String} Popup id
+  - content: {String} Popup content
+  - popupClass: {String} Popup class
+
+  Usage:
+  {% render 'modal',
+    id: 'popup-id',
+    title: 'title',
+    content: 'modalContent',
+    popupClass: 'p-5'
+  %}
+{% endcomment %}
+
+<div
+  x-data
+  x-cloak
+  id="{{ id }}"
+  @keyup.escape.window="$store.modal.closeModal()"
+>
+  <div
+    class="pointer-events-none fixed inset-0 z-[110] bg-black/30 opacity-0 transition-opacity"
+    @click="$store.modal.closeModal()"
+    :class="{ '!opacity-100 !pointer-events-auto': $store.modal.activeModalId === '{{ id }}' }"
+  ></div>
+  <div
+    class="pointer-events-none fixed left-1/2 top-0 z-[120] max-h-[calc(100%-40px)] w-full max-w-[calc(100%-40px)] -translate-x-1/2 -translate-y-full bg-white opacity-0 shadow-lg transition-all md:w-auto{% if popupClass %} {{ popupClass }}{% endif %}"
+    :class="{ '!-translate-y-1/2 !top-1/2 !opacity-100 !pointer-events-auto': $store.modal.activeModalId === '{{ id }}' }"
+  >
+    {% if title %}
+      <div class="bg-gray-light/60 px-5 py-3.75 text-sm font-bold uppercase">{{ title }}</div>
+    {% endif %}
+    <button @click.prevent="$store.modal.closeModal()" class="absolute right-5 top-3.75">
+      {% render 'icon', icon: 'close', class: '!h-3.75 !w-3.75' %}
+    </button>
+    <div class="modal-content h-full w-full overflow-y-scroll">
+      {{ content }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,212 @@
+{% comment %}
+  Accepts:
+  - product: {Object} Product liquid object
+
+  Usage:
+  {% render 'product-info', %}
+{% endcomment %}
+
+{% liquid
+  if product.variants.size >= 1
+    assign use_variant = true
+  else
+    assign use_variant = false
+  endif
+
+  assign size_guide = product.metafields.custom.size_guide
+  assign availability_in_size_text = product.metafields.custom.relation_type
+  assign availability_in_size_product = product.metafields.custom.related_product
+
+  if availability_in_size_text and availability_in_size_product
+    assign availability_in_size = true
+  else
+    assign availability_in_size = false
+  endif
+
+  assign availability_in_size = true
+
+  assign is_product_out_of_stock = true
+
+  for variant in product.variants
+    if variant.available
+      assign is_product_out_of_stock = false
+    endif
+  endfor
+%}
+
+{{ product | json }}
+
+<div
+  class="product-info mt-7 lg:sticky lg:top-0 lg:-mt-12 lg:pt-12 lg:pb-7.5 xl:pr-20"
+  id="main-product-info"
+>
+  {% comment %} Product Title {% endcomment %}
+  <h1 class="text-2xl font-bold uppercase leading-7 tracking-tight text-primary md:text-3xl md:tracking-[0.3px]">
+    {{ product.title | split: ' | ' | first }}
+  </h1>
+  {% comment %} Product SKU {% endcomment %}
+  <div
+    class="mt-3 text-xs text-black/60 lg:mt-5.5"
+    x-text="currentVariant && currentVariant.sku ? currentVariant.sku : '{{ product.sku }}'"
+  >
+    {{ product.sku }}
+  </div>
+  {% comment %} Product Price {% endcomment %}
+  <div class="my-4.25 flex items-center justify-between border-b border-primary pb-3.5 lg:pb-4.25">
+    {% render 'price', product, use_variant: use_variant, price_class: 'main-price' %}
+  </div>
+  {% comment %} Product Variants {% endcomment %}
+  {% unless is_product_out_of_stock %}
+    {% render 'product-variant-picker', product_target: product, prefix: 'main' %}
+  {% endunless %}
+  {% comment %} Product Size Guide and Availability {% endcomment %}
+  {% if size_guide or availability_in_size %}
+    <div class="{% if is_product_out_of_stock %}!mt-0 {% endif %}mt-6.25 flex lg:mt-7">
+      {% if availability_in_size_product %}
+        {% liquid
+          assign availability_final_text = 'products.product.availability' | t
+          assign availability_final_text = availability_final_text | replace: '%1', availability_in_size_text | replace: 'parent', 'adult'
+        %}
+        <a
+          href="{{ availability_in_size_product.value.url }}"
+          title="{{ availability_final_text }}"
+          class="product-info__link product-info__link--available group inline-flex items-center gap-3.5 text-xs uppercase underline transition-colors hover:text-red"
+        >
+          {% render 'icon',
+            icon: 'customer',
+            class: 'text-black/30 !w-[13px] !h-3.75 group-hover:text-red transition-colors'
+          %}
+          {{ availability_final_text }}
+        </a>
+      {% endif %}
+      {% if size_guide %}
+        <div
+          class="product-info__link product-info__link--size-guide group inline-flex cursor-pointer items-center gap-3.5 text-xs uppercase underline transition-colors hover:text-red{% if availability_in_size_product and size_guide %} border-l border-dotted border-primary pl-5 ml-5{% endif %}"
+          @click="$store.modal.openModal('size-guide-modal')"
+        >
+          {% render 'icon',
+            icon: 'ruler',
+            class: 'text-black/30 !w-[13px] !h-3.75 group-hover:text-red transition-colors'
+          %}
+          {{ 'products.product.size_guide' | t }}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+  {% comment %} Product Buy Box {% endcomment %}
+  <div
+    class="{% if is_product_out_of_stock %}!mt-0 {% endif %}mt-9.5 flex flex-col gap-2.5 md:flex-row md:flex-wrap md:justify-between lg:mt-7.5"
+    x-effect="if (currentVariant) formData.productId = currentVariant.id"
+    x-data="cart"
+  >
+    <div
+      class="{% if is_product_out_of_stock %}!hidden {% endif %}flex flex-col w-full gap-2.5 md:flex-row md:justify-between"
+      x-show="!$store.productStatus.isOutOfStock"
+    >
+      <div class="flex justify-between md:max-w-[132px]">
+        <button
+          class="rounded-l-large border-b border-l border-t border-gray-light py-2.5 pl-5 pr-4 transition-colors hover:bg-primary hover:text-white md:py-2.75 md:pl-4"
+          @click.prevent="formData.quantity -= (formData.quantity > 1)"
+        >
+          {% render 'icon', icon: 'minus', class: '!w-2.5 !h-2.5' %}
+        </button>
+        <input
+          class="w-full border-x-0 border-gray-light p-0 py-2.75 text-center text-gray-dark focus:border-gray-light focus:shadow-none focus:outline-0 focus-visible:border-gray-light focus-visible:shadow-none focus-visible:outline-0 md:py-2.75"
+          type="number"
+          readonly
+          value="1"
+          :value="formData.quantity"
+          @click.prevent
+        >
+        <button
+          class="rounded-r-large border-b border-r border-t border-gray-light py-2.5 pl-4 pr-5 transition-colors hover:bg-primary hover:text-white md:py-2.75 md:pr-4"
+          @click.prevent="formData.quantity++"
+        >
+          {% render 'icon', icon: 'plus', class: '!w-2.5 !h-2.5' %}
+        </button>
+      </div>
+      {% render 'add-to-cart-button', class: 'md:w-[calc(100%-142px)]' %}
+    </div>
+    <div
+      class="{% if is_product_out_of_stock %}!block {% endif %}w-full"
+      x-cloak
+      x-show="$store.productStatus.isOutOfStock"
+    >
+      {% render 'out-of-stock' %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .stamped-product-reviews-badge .stamped-fa {
+    color: rgba(var(--color-primary));
+  }
+
+  .stamped-product-reviews-badge .stamped-badge-caption {
+    margin-left: 5px;
+  }
+
+  .product-info input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  .product-info input[type='number']::-webkit-inner-spin-button,
+  .product-info input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .product-info .main-price > div {
+    flex-direction: row-reverse;
+  }
+
+  .product-info .main-price > div > span:last-child {
+    color: rgba(var(--color-primary));
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-top: -1px;
+  }
+
+  .product-info .labels li {
+    padding: 7px 12px;
+  }
+
+  .product-info .labels li span {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+  }
+
+  
+
+  @media (max-width: 768px) {
+    .stamped-product-reviews-badge .stamped-badge-caption {
+      font-size: var(--font-size-xs);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .product-info .main-price > div > span.line-through {
+      font-size: 18px;
+    }
+
+    .product-info .main-price > div > span:last-child {
+      font-size: 24px;
+      margin-right: 4px;
+    }
+
+    .stamped-product-reviews-badge .stamped-badge-caption {
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  @media (min-width: 1150px) {
+    .product-info {
+      transition: margin-top 300ms, padding-top 300ms;
+    }
+
+    body:has(.sticky-top-header):has(.sticky-header):has(.sticky-announcement-bar) .product-info {
+      margin-top: -190px;
+      padding-top: 190px;
+    }
+  }
+{% endstyle %}

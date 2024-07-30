@@ -2,6 +2,12 @@ import { UserInteractionEvents } from '~/types';
 
 const init = async () => {
   const { default: Alpine } = await import('alpinejs');
+  const { default: morph } = await import('@alpinejs/morph');
+  const { default: Notices } = await import('~/components/notices');
+  const { default: Cart } = await import('~/components/cart');
+  const { default: Variants } = await import('~/components/variants');
+  const { default: ProductStatus } = await import('~/components/product-status');
+  const { default: Modal } = await import('~/components/modal');
 
   if (document.querySelector('[x-data*="menu"]')) {
     const { default: Menu } = await import('~/components/menu');
@@ -9,31 +15,19 @@ const init = async () => {
     Alpine.plugin(Menu);
   }
 
-  const { default: Notices } = await import('~/components/notices');
-
-  Alpine.plugin(Notices);
-
   if (document.querySelector('[x-data*="swiper"]')) {
     const { default: Swiper } = await import('~/components/swiper');
 
     Alpine.plugin(Swiper);
   }
 
-  // if (document.querySelector('[x-data*="filterForm"]')) {
-  //   const { default: Filter } = await import('~/components/filter');
-
-  //   Alpine.plugin(Filter);
-  // }
-
-  // if (document.querySelector('[x-data*="swiper"]')) {
-  //   const { default: Swiper } = await import('~/components/swiper');
-
-  //   Alpine.plugin(Swiper);
-  // }
-
-  // const { default: Cart } = await import('~/components/cart');
-
-  // Alpine.plugin(Cart);
+  Alpine.plugin(Notices);
+  Alpine.plugin(morph);
+  Alpine.plugin(Cart);
+  Alpine.plugin(Variants);
+  Alpine.plugin(ProductStatus);
+  Alpine.plugin(Modal);
+  
 
   Alpine.start();
   window.Alpine = Alpine;

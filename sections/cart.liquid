@@ -1,0 +1,346 @@
+<div
+  class="cart grid grid-cols-12 pt-8.5 md:pt-9 lg:pt-[108px] pb-11 lg:pb-28"
+  x-data="cart()"
+>
+  <div class="col-span-12 xl:col-span-10 xl:col-start-2">
+    <div class="container max-w-full">
+      <div class="relative grid grid-cols-4 gap-x-5 md:grid-cols-12">
+        {% if cart.item_count == 0 %}
+          <div class="col-span-12">
+            <h1 class="mb-3.75 text-2xl leading-8 md:text-4xl">Shopping bag</h1>
+            <p class="mb-5 text-lg">Your cart is currently empty.</p>
+            <a href="/" class="text-xs underline">Continue shopping</a>
+          </div>
+        {% else %}
+          <div class="col-span-4 md:col-span-12 lg:col-span-8">
+            <h1 class="mb-4 text-2xl leading-8 md:mb-10 md:text-4xl">Shopping bag</h1>
+            {% comment %} {% include 'cart-shipping-calculator' %} {% endcomment %}
+            <div class="mt-6.5 md:mt-9.5">
+              <div class="hidden items-center border-b border-black/[.2] md:flex">
+                <div class="w-full max-w-[590px] pb-3.75 text-left text-xs font-normal">Product</div>
+                <div class="min-w-[105px] basis-[13%] pb-3.75 text-center text-xs font-normal">Price</div>
+                <div class="min-w-[114px] flex-grow pb-3.75 text-center text-xs font-normal">Quantity</div>
+                <div class="mr-5.5 min-w-[105px] basis-[13%] pb-3.75 text-center text-xs font-normal">Total</div>
+              </div>
+              <div>
+                {%- for item in cart.items -%}
+                  {%- assign popup_id = 'cart-modal-' | append: forloop.index -%}
+                  <div class="mt-2.5 flex flex-wrap border-b border-black/[.2] pb-2.5 md:mt-5 md:flex-nowrap md:items-center md:pb-5">
+                    <div class="order-1 w-[70px] min-w-[70px] md:w-30 md:min-w-30">
+                      {% if item.image %}
+                        {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                        <a
+                          href="{{ item.url }}"
+                          class="cart-item__link flex bg-gray/[.15]"
+                          aria-hidden="true"
+                          tabindex="-1"
+                        >
+                          <div class="cart-item__image-container gradient global-media-settings">
+                            <img
+                              src="{{ item.image | image_url: width: 120 }}"
+                              class="cart-item__image w-full mix-blend-darken"
+                              alt="{{ item.image.alt | escape }}"
+                              loading="lazy"
+                              width="120"
+                              height="{{ 160 | divided_by: item.image.aspect_ratio | ceil }}"
+                            >
+                          </div>
+                        </a>
+                      {% endif %}
+                    </div>
+                    <div class="order-2 mr-auto w-full max-w-[calc(100%-70px)] pl-5 md:max-w-[470px] md:pl-10">
+                      <div class="w-full max-w-[312px]">
+                        <a
+                          href="{{ item.url }}"
+                          class="mb-3.5 block text-sm font-bold uppercase md:mb-5 md:text-base"
+                        >
+                          {{- item.product.title | escape -}}
+                        </a>
+                        {% unless item.product.title contains "Gift Card" %}
+                          <dl class="mb-2.5 flex md:mb-0">
+                            <div class="flex flex-col text-xs md:flex-row">
+                              <dt class="mb-1 w-15 text-black/[0.6] md:mb-2">SKU:</dt>
+                              <dd>{{ item.variant.sku }}</dd>
+                            </div>
+                          </dl>
+                        {% endunless %}
+                        {% comment %} {%- render 'gift-card-pro-cart-item-properties', item: item -%} {% endcomment %}
+                        {%- if item.product.has_only_default_variant == false
+                          or item.properties.size != 0
+                          or item.selling_plan_allocation != null
+                        -%}
+                          <dl class="flex flex-col gap-y-2.5 md:gap-y-2">
+                            {%- if item.product.has_only_default_variant == false -%}
+                              {%- for option in item.options_with_values -%}
+                                <div class="mb-1 flex flex-col text-xs md:mb-0 md:flex-row">
+                                  <dt class="w-15 text-black/[0.6]">
+                                    {{ option.name | replace: 'Apparel ', '' | replace: 'Shoes ', '' }}:
+                                  </dt>
+                                  <dd>{{ option.value }}</dd>
+                                </div>
+                              {%- endfor -%}
+                            {%- endif -%}
+                          </dl>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    <div class="order-3 hidden min-w-[105px] basis-[13%] text-center text-sm md:block">
+                      {{ item.final_price | money }}
+                    </div>
+                    <div class="order-5 flex min-w-25 flex-grow justify-center pt-2.5 md:order-4 md:min-w-[114px] md:pt-0">
+                      <div class="flex">
+                        <button
+                          class="quantity-button flex h-7.5 w-6 items-center justify-center rounded-l-full border border-r-0 border-black/[0.19] md:h-9 md:w-9"
+                          name="minus"
+                          type="button"
+                          @click.prevent="updateCartItem({{ item.index | plus: 1 }}, parseInt('{{ item.quantity }}') - 1)"
+                          x-bind:class="{' disabled cursor-not-allowed pointer-events-none': '{{ item.quantity }}' == 1}"
+                        >
+                          {% render 'icon',
+                            icon: 'minus',
+                            class: 'quantity-button-icon !w-2 !h-2.5 md:!w-[10px] md:!h-[10px] text-black'
+                          %}
+                        </button>
+                        <input
+                          class="quantity-input h-7.5 w-[52px] border border-l-0 border-r-0 border-black/[0.19] p-0 text-center md:h-9 md:w-10"
+                          data-quantity-variant-id="{{ item.variant.id }}"
+                          type="number"
+                          name="updates[]"
+                          value="{{ item.quantity }}"
+                          x-on:change="updateCartItem({{ item.index | plus: 1 }}, $event.target.valueAsNumber)"
+                          data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                          min="{{ item.variant.quantity_rule.min }}"
+                          {% if item.variant.quantity_rule.max != null %}
+                            max="{{ item.variant.quantity_rule.max }}"
+                          {% endif %}
+                          step="{{ item.variant.quantity_rule.increment }}"
+                          id="Quantity-{{ item.index | plus: 1 }}"
+                          data-index="{{ item.index | plus: 1 }}"
+                        >
+                        <button
+                          class="flex h-7.5 w-6 items-center justify-center rounded-r-full border border-l-0 border-black/[0.19] md:h-9 md:w-9"
+                          name="plus"
+                          type="button"
+                          @click.prevent="updateCartItem({{ item.index | plus: 1 }}, parseInt('{{ item.quantity }}') + 1)"
+                        >
+                          {% render 'icon', icon: 'plus', class: '!w-2 !h-2 md:!w-2.5 md:!h-2.5 text-black' %}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="cart-item__totals right small-hide order-6 min-w-20 basis-[13%] pt-4 text-end text-sm md:order-5 md:min-w-[105px] md:pt-0 md:text-center">
+                      {{ item.final_line_price | money }}
+                    </div>
+                    <div class="order-4 ml-[90px] mr-6.5 pt-4 md:order-6 md:ml-0 md:mr-0 md:px-1.25 md:pt-0">
+                      <button
+                        type="button"
+                        class="text-xs underline"
+                        @click.prevent="$store.modal.openModal('{{ popup_id }}')"
+                      >
+                        {% render 'icon', icon: 'trash', class: '!w-[12px] !h-[13px]' %}
+                      </button>
+
+                      {% capture modalContent %}
+                        <div class="flex flex-col px-5 py-3.75">
+                          <p class="mb-5">Are you sure you would like to remove this item from the shopping bag?</p>
+                          <div class="grid grid-cols-2 gap-2.5 md:flex">
+                            <button
+                              @click.prevent="$store.modal.closeModal()"
+                              class="rounded-large border border-primary bg-primary px-10 py-3.5 text-xs font-bold uppercase text-white transition-colors hover:bg-white hover:text-primary focus:outline-none focus:ring-4 focus:ring-red/[.15] focus:ring-offset-0 disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark"
+                              >
+                              Cancel
+                            </button>
+                            <button
+                              @click.prevent="removeCartItem({{ item.index | plus: 1 }}), $store.modal.closeModal()"
+                              class="rounded-large border border-primary bg-primary px-10 py-3.5 text-xs font-bold uppercase text-white transition-colors hover:bg-white hover:text-primary focus:outline-none focus:ring-4 focus:ring-red/[.15] focus:ring-offset-0 disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark"
+                              >
+                              Ok
+                            </button>
+                          </div>
+                        </div>
+                      {% endcapture %}
+                      {% render 'modal', id: popup_id, title: 'Are you sure?', content: modalContent, popupClass: 'cart-modal' %}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-12 lg:col-span-3 lg:col-start-10">
+            <div class="mt-5 border border-black/[.15] p-7.5 lg:mt-0">
+              <h2 class="mb-3.5 text-xl leading-8 md:mb-9.5 md:text-2xl">Order Summary</h2>
+              <p class="mb-3 flex items-center justify-between text-base font-medium md:text-lg">
+                <span>Subtotal</span>
+                <span>{{ cart.items_subtotal_price | money }}</span>
+              </p>
+              <p class="mb-10 text-xs leading-none text-black/[.73] md:text-sm md:leading-6">
+                Taxes and shipping calculated at checkout.
+              </p>
+              <a
+                href="/checkout/"
+                class="flex items-center justify-center gap-2.5 rounded-large border border-primary bg-primary px-5 py-3.5 text-xs font-bold uppercase text-white transition-colors hover:bg-white hover:text-primary focus:outline-none focus:ring-4 focus:ring-red/[.15] focus:ring-offset-0 disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark 2xl:px-10"
+              >
+                {%- render 'icon', icon: 'lock', class: '!w-3.5 !h-3.5' %} secure checkout</a
+              >
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .return_policy_content p {
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  .return_policy_content a {
+    color: rgb(0, 0, 0);
+    font-size: var(--font-size-xs);
+    line-height: 14px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 700ms;
+  }
+
+  .return_policy_content a:hover {
+    color: rgba(var(--color-red));
+    text-decoration: none;
+  }
+
+  .quantity-button.disabled .quantity-button-icon {
+    opacity: 0.5;
+  }
+
+  .cart-footer-blocks p {
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  .cart-footer-blocks a {
+    color: rgb(0, 0, 0);
+    font-size: var(--font-size-xs);
+    line-height: 14px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 700ms;
+  }
+
+  .cart-footer-blocks a:hover {
+    color: rgba(var(--color-red));
+    text-decoration: none;
+  }
+
+  .cart-modal .modal-content {
+    overflow-y: initial;
+  }
+
+  .cart .final-price {
+    color: rgb(0, 0, 0);
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Cart",
+    "class": "section-cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Return policy"
+      },
+      {
+        "type": "text",
+        "id": "return_policy_title",
+        "label": "return policy title"
+      },
+      {
+        "type": "richtext",
+        "id": "return_policy_content",
+        "label": "return policy content"
+      },
+      {
+        "type": "header",
+        "content": "Free Shipping"
+      },
+      {
+        "type": "text",
+        "id": "block_title_1",
+        "label": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "block_content_1",
+        "label": "Content",
+        "info": "Please use '[spend-x]' variable for amount output"
+      },
+      {
+        "type": "header",
+        "content": "Secure Shopping"
+      },
+      {
+        "type": "text",
+        "id": "block_title_2",
+        "label": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "block_content_2",
+        "label": "Content"
+      },
+      {
+        "type": "header",
+        "content": "Fun New Styles"
+      },
+      {
+        "type": "text",
+        "id": "block_title_3",
+        "label": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "block_content_3",
+        "label": "Content"
+      },
+      {
+        "type": "header",
+        "content": "Recommended Products"
+      },
+      {
+        "type": "text",
+        "id": "block_heading",
+        "label": "Recommended products heading"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_navigation",
+        "default": true,
+        "label": "Hide navigation carousel"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_pagination",
+        "default": true,
+        "label": "Hide pagination carousel"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "carousel",
+        "name": "Recommended products",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

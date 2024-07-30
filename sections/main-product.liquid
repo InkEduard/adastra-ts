@@ -1,0 +1,338 @@
+<div
+  class="product-main mt-1.25 pb-10 md:pb-24 lg:mt-3"
+  x-data="variants('{{ product.id }}', {{ product.selected_or_first_available_variant.options.size }}, '{{ product.url }}', 'main')"
+>
+  <div class="grid grid-cols-12">
+    <div class="col-span-12 xl:col-span-10 xl:col-start-2">
+      <div class="container max-w-full">
+        <div class="relative grid grid-cols-4 md:grid-cols-12 md:gap-5">
+          <div class="order-1 col-span-4 md:col-span-12 lg:col-span-7 2xl:col-span-8">
+            product-gallery
+          </div>
+          <div class="order-2 col-span-4 md:col-span-12 lg:z-20 lg:col-span-5 lg:row-span-3 2xl:col-span-4">
+            {% render 'product-info', product %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "url": {{ request.origin | append: product.url | json }},
+      "image": [
+        {{ product.images.first | image_url: width: 1920 | prepend: "https:" | json }}
+      ],
+      "description": {{ product.description | strip_html | json }},
+      {% if product.selected_or_first_available_variant.sku != blank -%}
+        "sku": {{ product.selected_or_first_available_variant.sku | json }},
+      {%- endif %}
+      {% if product.metafields.stamped.reviews_count and product.metafields.stamped.reviews_count != "0" %} 
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": {{ product.metafields.stamped.reviews_average | round: 2 }},
+          "reviewCount": {{ product.metafields.stamped.reviews_count }}
+        },
+      {% endif %}
+      "brand": {
+        "@type": "Brand",
+        "name": {{ product.vendor | json }}
+      },
+      "offers": [
+        {%- for variant in product.variants -%}
+          {
+            "@type" : "Offer",
+            {%- if variant.sku != blank -%}
+              "sku": {{ variant.sku | json }},
+            {%- endif -%}
+            {%- if variant.barcode.size == 12 -%}
+              "gtin12": {{ variant.barcode }},
+            {%- endif -%}
+            {%- if variant.barcode.size == 13 -%}
+              "gtin13": {{ variant.barcode }},
+            {%- endif -%}
+            {%- if variant.barcode.size == 14 -%}
+              "gtin14": {{ variant.barcode }},
+            {%- endif -%}
+            "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+            "price" : {{ variant.price | divided_by: 100.00 | json }},
+            "priceCurrency" : {{ cart.currency.iso_code | json }},
+            "url" : {{ request.origin | append: variant.url | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+  {% if product.metafields.custom.siblings %}
+    <script>
+      const callback = () => {
+        if (!window.SwymProductVariants && !window.SwymWatchProducts) return;
+
+        const products = {{ product.metafields.custom.siblings.value | json }};
+
+        products.forEach(product => {
+          product.variants.forEach(variant => {
+            if (!window.SwymProductVariants[variant.id]) {
+              window.SwymProductVariants[variant.id] = {
+                empi: product.id,
+                epi: variant.id,
+                dt: product.title,
+                du: '{{ shop.url }}{{ product.url }}',
+                iu: variant?.featured_image?.src,
+                ct: '',
+                pr: 102,
+                stk: 100,
+                variants: [
+                  {
+                    [variant.public_title]: variant.id
+                  }
+                ]
+              };
+            }
+
+            if (!window.SwymWatchProducts[variant.id]) {
+              window.SwymWatchProducts[variant.id] = {
+                available: variant.available,
+                id: variant.id,
+                inventory_management: 'shopify',
+                title: variant.public_title
+              };
+            }
+          });
+        });
+      };
+
+      window.SwymCallbacks = window.SwymCallbacks || [];
+      window.SwymCallbacks.push(callback);
+    </script>
+  {% endif %}
+</div>
+
+{% style %}
+  #stamped-main-widget .stamped-container {
+    font-family: 'Gotham';
+  }
+
+  #stamped-main-widget .stamped-container[data-widget-style] {
+    margin-bottom: 10px !important;
+  }
+
+  #stamped-main-widget .stamped-container ul.stamped-tabs li:before {
+    display: none;
+  }
+
+  #stamped-main-widget .stamped-container ul.stamped-tabs li#tab-questions[data-count][data-new-tab]:after,
+  #stamped-main-widget .stamped-container ul.stamped-tabs li#tab-reviews[data-count]:after {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  #stamped-main-widget .stamped-container ul[data-count='0'][data-widget-language=''] .stamped-empty-state > div {
+    background-color: rgba(var(--color-primary) / 0.6);
+  }
+
+  #stamped-main-widget .stamped-container ul .stamped-reviews-filter {
+    margin-top: 20px;
+  }
+
+  #stamped-main-widget .stamped-container .stamped-summary-actions-clear,
+  #stamped-main-widget .stamped-container .stamped-summary-actions-mobile-filter,
+  #stamped-main-widget .stamped-container .stamped-summary-actions-newquestion,
+  #stamped-main-widget .stamped-container .stamped-summary-actions-newreview {
+    border-color: rgb(var(--color-gray_light));
+    border-radius: 28px;
+    box-shadow: none !important;
+    font-size: var(--font-size-xs);
+    line-height: 14px;
+    padding: 16px 20px;
+    text-transform: uppercase;
+  }
+
+  #stamped-main-widget input[type='text'],
+  #stamped-main-widget input[type='email'],
+  #stamped-main-widget select,
+  #stamped-main-widget textarea {
+    border-color: rgba(var(--color-primary) / 0.26);
+    border-radius: 4px;
+    display: block;
+    font-size: var(--font-size-sm);
+    line-height: 20px;
+    margin-top: 7px;
+    padding: 11px 19px;
+    transition-duration: 300ms;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+  }
+
+  #stamped-main-widget input[type='text']::placeholder,
+  #stamped-main-widget input[type='email']::placeholder,
+  #stamped-main-widget select::placeholder,
+  #stamped-main-widget textarea::placeholder {
+    color: rgba(var(--color-primary) / 0.5);
+    font-size: var(--font-size-sm);
+    line-height: 20px;
+  }
+
+  #stamped-main-widget input[type='text']:focus,
+  #stamped-main-widget input[type='email']:focus,
+  #stamped-main-widget select:focus,
+  #stamped-main-widget textarea:focus {
+    --tw-ring-color: rgba(var(--color-red) / 0.15);
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    --tw-ring-opacity: 0.5;
+    border-color: rgb(var(--color-primary));
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  }
+
+  #stamped-main-widget .stamped-reviews-filter {
+    margin-top: 20px;
+  }
+
+  #stamped-main-widget select#stamped-sort-select {
+    background-image: url('{{ 'sort-by-arrow.svg' | asset_url }}') !important;
+    background-position: right 8px center;
+    background-size: 10px 10px !important;
+    border-color: rgba(var(--color-primary) / 0.26) !important;
+    border-width: 1px;
+    height: auto;
+    font-size: var(--font-size-sm);
+    line-height: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 11px 19px !important;
+    width: auto;
+  }
+
+  #stamped-main-widget div[data-widget-load-type='continue'] ul.stamped-pagination li.next a:before {
+    font-size: var(--font-size-xs);
+    line-height: 14px;
+  }
+
+  #stamped-main-widget .stamped-pagination li.next > a,
+  #stamped-main-widget input[type='submit'] {
+    background-color: rgb(var(--color-primary));
+    border: 1px solid rgb(var(--color-primary));
+    border-radius: 28px;
+    color: rgba(255, 255, 255, 1);
+    font-size: var(--font-size-xs) !important;
+    font-weight: 700;
+    line-height: 14px;
+    margin-top: 28px;
+    padding: 16px 40px;
+    text-transform: uppercase;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  #stamped-main-widget .stamped-pagination li.next > a:hover,
+  #stamped-main-widget input[type='submit']:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgb(var(--color-primary));
+  }
+
+  #stamped-main-widget .stamped-pagination li.next > a:focus,
+  #stamped-main-widget input[type='submit']:focus {
+    --tw-ring-color: rgba(var(--color-red) / 0.15);
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    --tw-ring-offset-width: 0px;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    border-color: rgb(var(--color-primary));
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  }
+
+  #stamped-main-widget .stamped-pagination li.next > a:disabled,
+  #stamped-main-widget input[type='submit']:disabled {
+    background-color: rgb(var(--color-gray_light));
+    border-color: rgb(var(--color-gray_light));
+    color: rgb(var(--color-gray_dark));
+  }
+
+  #stamped-main-widget .new-review-form {
+    border-color: rgb(0, 0, 0, 0.06) !important;
+  }
+
+  #stamped-main-widget .stamped-review-header .created,
+  #stamped-main-widget .stamped-review-header-byline .created {
+    color: rgb(0, 0, 0, 0.6);
+  }
+
+  #stamped-main-widget .new-review-form label {
+    font-size: var(--font-size-xs);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  #stamped-main-widget .stamped-pagination li:before {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    #stamped-main-widget select#stamped-sort-select {
+      border: 1px solid rgba(var(--color-primary) / 0.26) !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #stamped-main-widget input[type='submit'] {
+      margin-top: 40px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "text",
+        "default": "Frequently Purhased",
+        "id": "frequently_purchased_text",
+        "label": "Frequently Purhased Text",
+        "info": "Note: shows the products from Product Recommendations API (related)"
+      },
+      {
+        "type": "text",
+        "default": "You May Also Like",
+        "id": "you_may_also_like_text",
+        "label": "You May Also Like Text",
+        "info": "Note: shows the products from Product Recommendations API (complementary)"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "@app"
+      },
+      {
+        "name": "Shipping",
+        "limit": 1,
+        "type": "shipping",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      },
+      {
+        "name": "Returns",
+        "limit": 1,
+        "type": "returns",
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

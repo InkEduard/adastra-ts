@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@alpinejs/morph':
+        specifier: ^3.14.1
+        version: 3.14.1
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.7(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.14.9)(typescript@4.9.5)))
+      '@types/alpinejs__morph':
+        specifier: ^3.13.4
+        version: 3.13.4
       alpinejs:
         specifier: ^3.14.1
         version: 3.14.1
@@ -52,6 +58,9 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@alpinejs/morph@3.14.1':
+    resolution: {integrity: sha512-6wJuI7QETygFhw0ZLvIZ5mAM082rbK++t4U624I4NagNjJHGiKKuPJBIw+oAYjHz7KT/tvp/Ng4PheEH+GY4eA==}
 
   '@apidevtools/json-schema-ref-parser@11.6.4':
     resolution: {integrity: sha512-9K6xOqeevacvweLGik6LnZCb1fBtCOSIWQs8d096XGeqoLKC33UVMGz9+77Gw44KvbH4pKcQPWo4ZpxkXYj05w==}
@@ -408,6 +417,9 @@ packages:
 
   '@types/alpinejs@3.13.10':
     resolution: {integrity: sha512-ah53tF6mWuuwerpDE7EHwbZErNDJQlsLISPqJhYj2RZ9nuTYbRknSkqebUd3igkhLIZKkPa7IiXjSn9qsU9O2w==}
+
+  '@types/alpinejs__morph@3.13.4':
+    resolution: {integrity: sha512-7A7YfX1EjWSPgOK677AFTW0iJNxYh+uaF952nwGiPxspej2Ch9lPAdctj7BDtyvZYM7GDtmx7DRqH6xTjtIe3A==}
 
   '@types/archiver@5.3.2':
     resolution: {integrity: sha512-IctHreBuWE5dvBDz/0WeKtyVKVRs4h75IblxOACL92wU66v+HGAfEYAOyXkOFphvRJMhuXdI9huDXpX0FC6lCw==}
@@ -2168,6 +2180,8 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
+  '@alpinejs/morph@3.14.1': {}
+
   '@apidevtools/json-schema-ref-parser@11.6.4':
     dependencies:
       '@jsdevtools/ono': 7.1.3
@@ -2597,6 +2611,10 @@ snapshots:
   '@tsconfig/node16@1.0.4': {}
 
   '@types/alpinejs@3.13.10': {}
+
+  '@types/alpinejs__morph@3.13.4':
+    dependencies:
+      '@types/alpinejs': 3.13.10
 
   '@types/archiver@5.3.2':
     dependencies:

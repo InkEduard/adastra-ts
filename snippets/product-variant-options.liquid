@@ -16,7 +16,6 @@
   {% liquid
     assign value_downcased = value | downcase
   %}
-
   <label
     {% if option_name contains 'color' %}
       {%- render 'product-variant-color', value: value_downcased, product: product -%}
@@ -32,16 +31,6 @@
     for="{% if prefix %}{{ prefix }}-{% endif %}{{ product.id }}-{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
   >
     {{ value }}
-    {% if option_name contains 'color' %}
-      <div class="variant-tooltip pointer-events-none absolute bottom-[calc(100%+13px)] left-1/2 z-10 hidden min-h-32 w-24 -translate-x-1/2 rounded border border-primary bg-white p-1.25 pb-2 text-left text-primary opacity-0 transition-opacity after:absolute after:-bottom-1 after:left-[calc(50%-4px)] after:h-2 after:w-2 after:rotate-[225deg] after:border-l after:border-t after:border-primary after:bg-white lg:block lg:group-hover:pointer-events-auto lg:group-hover:opacity-100">
-        <div
-          class="h-[74px] w-[84px] border border-gray-light bg-cover bg-center bg-no-repeat"
-          {%- render 'product-variant-color', value: value_downcased, product: product -%}
-        ></div>
-        <div class="mt-1.5 text-xs">{{ value }}</div>
-        <div class="mt-1 text-xxs font-medium">click to view</div>
-      </div>
-    {% endif %}
     <input
       :disabled="availableVariants.filter(option => option === '{{ value }}').length ? false : true"
       :checked="isChecked('{{ product.id }}','{{ option.position }}', '{{ value | replace: '"', '&quot;' }}', {{ option.values.size }}, '{{ option_name }}', '{{ prefix }}')"

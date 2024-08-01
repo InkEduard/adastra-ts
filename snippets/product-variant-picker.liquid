@@ -10,7 +10,7 @@
   {% render 'product-variant-picker' %}
 {% endcomment %}
 
-{% unless product_target.has_only_default_variant %}
+{% comment %} {% unless product_target.has_only_default_variant %} {% endcomment %}
   <variant-radios
     id="variant-radios-{{ section.id }}"
     {% if variants_class %}
@@ -31,14 +31,13 @@
           assign options = options | concat: tmp_option
         endfor
       %}
-
       <fieldset class="{{ option_name }}{% unless forloop.last %} mb-10 md:mb-8.5{% endunless %}">
         <legend class="mb-3.25 text-xs font-bold uppercase">
           {{ option.name | replace: 'Apparel ', '' | replace: 'Shoes ', '' }}:
           <span class="font-light capitalize" x-text="options['option{{ option.position }}']"></span>
         </legend>
         <div
-          class="flex flex-wrap{% if option_name contains 'color' %} gap-1.75 md:grid md:grid-cols-[repeat(auto-fill,minmax(26px,1fr))]{% else %} -mt-1.5 ml-px -mr-1{% endif %}"
+          class="flex flex-wrap{% if option_name contains 'color' %} gap-1.75 md:grid md:grid-cols-[repeat(auto-fill,minmax(26px,1fr))]{% else %} -mt-1.5 ml-px -mr-1{% endif %} {% if product_target.has_only_default_variant %} hidden{% endif %}"
         >
           {% render 'product-variant-options',
             option: option,
@@ -50,7 +49,7 @@
         </div>
         <template x-if="!isValid">
           <div
-            x-effect="isValid = splittedProductsData && splittedProductsData.length ? Object.values(options).length === optionsCount && splittedSelectedValue : Object.values(options).length === optionsCount ? true : false"
+            x-effect="isValid = Object.values(options).length === optionsCount ? true : false"
             class="mt-2.5 hidden text-xs text-red empty:mt-0"
             :class="{ '!block': !options['option{{ option.position }}'] }"
           >
@@ -133,4 +132,7 @@
       border-color: #fff;
     }
   {% endstyle %}
-{% endunless %}
+
+{% comment %} {% else %} {% endcomment %}
+  
+{% comment %} {% endunless %} {% endcomment %}

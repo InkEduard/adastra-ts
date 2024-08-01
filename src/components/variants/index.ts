@@ -15,8 +15,6 @@ export default (Alpine: AlpineType) => {
     currentColorImages: [] as string[],
     currentVariant: {} as VariantData,
     availableVariants: [] as string[],
-    splittedProductsData: [] as ProductData[],
-    splittedSelectedValue: '' as string,
     initedSingleOptions: [] as string[],
     backInStockDates: '' as string,
     prefix: prefix as string,
@@ -28,9 +26,6 @@ export default (Alpine: AlpineType) => {
       const variantsImages = document.querySelector(
         `[x-ref="variants-images-${this.productId}"]`
       ) as HTMLScriptElement;
-      const missedOptions = document.querySelector(
-        `[x-ref="missed-options-${this.productId}"]`
-      ) as HTMLScriptElement;
       const backInStockDates = document.querySelector(
         `[x-ref="variants-back-in-stock-date-${this.productId}"]`
       ) as HTMLScriptElement;
@@ -41,29 +36,6 @@ export default (Alpine: AlpineType) => {
 
       if (variantsImages) {
         this.variantsImages = JSON.parse(variantsImages.innerText);
-      }
-
-      if (missedOptions) {
-        const splittedProductsElement = document.querySelector(
-          `[x-ref="splitted-products-data-${this.productId}"]`
-        ) as HTMLScriptElement;
-
-        if (splittedProductsElement) {
-          const splittedProductsData = JSON.parse(
-            splittedProductsElement.innerText
-          );
-          const missedOptionsData = JSON.parse(missedOptions.innerText);
-
-          missedOptionsData.forEach((option: string) => {
-            splittedProductsData.forEach(product => {
-              product.variants.forEach(variant => {
-                if (variant.options.includes(option)) {
-                  this.variantData.push(variant);
-                }
-              });
-            });
-          });
-        }
       }
 
       if (backInStockDates && prefix === 'main') {
@@ -104,17 +76,15 @@ export default (Alpine: AlpineType) => {
       this.availableVariants.push(...availableOptions);
     },
 
-    addImages(value: string | null, isSplitted?: boolean) {
+    addImages(value: string | null) {
       const images: string[] = [];
 
       if (value) {
         this.variantsImages.forEach(imageData => {
           if (images.length) return;
 
-          const featuredKey = isSplitted
-            ? 'splitted_featured_image'
-            : 'featured_image';
-          const galleryKey = isSplitted ? 'splitted_gallery' : 'gallery';
+          const featuredKey = 'featured_image';
+          const galleryKey = 'gallery';
 
           if (imageData[featuredKey]) {
             for (const key in imageData[featuredKey]) {

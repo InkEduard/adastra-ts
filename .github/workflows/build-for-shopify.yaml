@@ -60,7 +60,7 @@ jobs:
           git config user.email "action@github.com"
           git add .
           git commit --amend --no-edit
-          git add -f assets/cap-*
+          git add -f assets/index-*
           git add -f snippets/adastra.liquid
           git commit -m "Shopify git-busting commit: `date`"
       - name: Push changes to development-build subtree

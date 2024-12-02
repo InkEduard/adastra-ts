@@ -122,3 +122,7 @@ body {
 .peer:checked + label span {
   display: block;
 }
+
+a:not(.button) {
+  @apply transition-all hover:underline;
+}

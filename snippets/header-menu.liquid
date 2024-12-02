@@ -37,7 +37,7 @@
                     <span>
                       {{- link.title | escape -}}
                     </span>
-                    <span :class="selected === {{ index }} ? 'rotate-180' : ''">
+                    <span class="transition-all" :class="selected === {{ index }} ? 'rotate-180' : ''">
                       {% render 'icon', icon: 'arrow-down', class: '!w-4 !h-3.5 text-brown' %}
                     </span>
                   </aw-summary>

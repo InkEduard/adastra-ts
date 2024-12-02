@@ -1,1 +1,0 @@
-const e=a=>{a.store("productStatus",{isOutOfStock:!1,backInStockDates:null,backInStockDate:null,setIsOutOfStock(t,c){this.isOutOfStock=!c.includes(t)},updateBackInStockDates(t){this.backInStockDates=t},getBackInStockDates(){return JSON.parse(`{${this.backInStockDates}}`)},updateBackInStockDate(t){this.backInStockDate=this.getBackInStockDates()[t]||null}})};export{e as default};

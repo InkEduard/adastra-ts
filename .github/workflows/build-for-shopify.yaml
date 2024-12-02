@@ -54,16 +54,16 @@ jobs:
       - name: Add -build subtree
         run: |
           git checkout -b "${{ steps.extract_branch.outputs.branch }}-build" || true
+
       - name: Add files to development-build subtree
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          git add .
-          git commit --amend --no-edit
-          git add -f assets/ats-*
-          git add -f snippets/adastra.liquid
-          git commit -m "Shopify git-busting commit: `date`"
+          ls -la assets/ats-* snippets/adastra.liquid || echo "No matching files found"
+          git add -f assets/ats-* snippets/adastra.liquid || true
+          git commit -m "Shopify git-busting commit: $(date)" || echo "No changes to commit"
+
       - name: Push changes to development-build subtree
         run: |
           git config --global --add --bool push.autoSetupRemote true
-          git push --force
+          git push --force || echo "Nothing to push"

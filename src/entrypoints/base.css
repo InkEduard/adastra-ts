@@ -128,3 +128,7 @@ body {
 a:not(.button) {
   @apply transition-all hover:underline;
 }
+
+.collection-banner {
+  color: rgba(var(--color-green-light) / 1);
+}

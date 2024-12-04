@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -33,6 +35,7 @@ jobs:
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -40,30 +43,38 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
       - name: Build
-        run: |
-          pnpm run build
+        run: pnpm run build
+
       - name: Extract branch name
         id: extract_branch
         shell: bash
         run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
-      - name: Add -build subtree
+      - name: Create or switch to -build branch
         run: |
           git checkout -b "${{ steps.extract_branch.outputs.branch }}-build" || true
+
       - name: Add files to development-build subtree
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
+          git rm -r --cached .
           git add .
-          git commit --amend --no-edit
           git add -f assets/ats-*
           git add -f snippets/adastra.liquid
-          git commit -m "Shopify git-busting commit: `date`"
+
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit."
+          else
+            git commit -m "Shopify git-busting commit: $(date)"
+          fi
+
       - name: Push changes to development-build subtree
         run: |
           git config --global --add --bool push.autoSetupRemote true
-          git push --force
+          git push --force || echo "Nothing to push"

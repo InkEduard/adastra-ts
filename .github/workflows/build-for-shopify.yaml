@@ -53,11 +53,7 @@ jobs:
 
       - name: Add -build subtree
         run: |
-          git checkout -b "${{ steps.extract_branch.outputs.branch }}-build" || git checkout "${{ steps.extract_branch.outputs.branch }}-build"
-
-      - name: Merge master into -build subtree branch
-        run: |
-          git merge master || echo "Already up to date"
+          git checkout -b "${{ steps.extract_branch.outputs.branch }}-build" || true
 
       - name: Add files to development-build subtree
         run: |

@@ -59,6 +59,8 @@ jobs:
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
+          git add .
+          git commit --amend --no-edit
           ls -la assets/ats-* snippets/adastra.liquid || echo "No matching files found"
           git add -f assets/ats-* snippets/adastra.liquid || true
           git commit -m "Shopify git-busting commit: $(date)" || echo "No changes to commit"

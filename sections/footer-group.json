@@ -1,0 +1,32 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "newsletter_enable": true,
+        "menu": "footer",
+        "quick_links": "quick_links",
+        "copyright": "Ink Edy",
+        "show_visa": true,
+        "show_mastercard": true,
+        "show_amex": true,
+        "show_paypal": true,
+        "show_discover": true
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

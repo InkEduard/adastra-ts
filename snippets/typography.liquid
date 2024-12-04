@@ -1,0 +1,28 @@
+{% comment %}
+  Renders fonts links and variables.
+
+  Usage:
+    {% render 'typography' %}
+{% endcomment %}
+
+{% style %}
+  :root {
+    --type-heading-scale: 1;
+    --type-body-scale: 1;
+    --font-heading-family: 'Roboto Slab';
+    --font-body-family: 'Roboto';
+
+    --font-size-xxs: calc(var(--type-body-scale) * 0.625rem); /* 10px */
+    --font-size-xs: calc(var(--type-body-scale) * 0.75rem); /* 12px */
+    --font-size-sm: calc(var(--type-body-scale) * 0.875rem); /* 14px */
+    --font-size-base: calc(var(--type-body-scale) * 1rem); /* 16px */
+    --font-size-lg: calc(var(--type-body-scale) * 1.125rem); /* 18px */
+    --font-size-xl: calc(var(--type-heading-scale) * 1.25rem); /* 20px */
+    --font-size-2xl: calc(var(--type-heading-scale) * 1.5rem); /* 24px */
+    --font-size-3xl: calc(var(--type-heading-scale) * 1.625rem); /* 26px */
+    --font-size-4xl: calc(var(--type-heading-scale) * 1.875rem); /* 30px */
+    --font-size-5xl: calc(var(--type-heading-scale) * 2.25rem); /* 36px */
+    --font-size-6xl: calc(var(--type-heading-scale) * 3.125rem); /* 40px */
+    --font-size-7xl: calc(var(--type-heading-scale) * 4.375rem); /* 70px */
+  }
+{% endstyle %}

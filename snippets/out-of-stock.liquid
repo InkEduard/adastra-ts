@@ -1,0 +1,20 @@
+{% comment %}
+  Renders product out of stock notice message.
+
+  Usage:
+  {% render 'out-in-stock', back_in_stock_date: date %}
+{% endcomment %}
+
+<div class="flex flex-col items-center justify-center text-center w-full text-[#f52a51] bg-[#ffe7eb] text-sm px-3.75 py-2 h-12">
+  <p>
+    <span class="underline">{{ 'products.product.current_selection' | t }}</span>
+    <span>{{ 'products.product.is_out_of_stock' | t }}</span>
+  </p>
+  <p x-show="$store.productStatus.backInStockDate" x-cloak>
+    <span> {{ 'products.product.back_in_stock_date' | t }} </span>
+    <span x-text="$store.productStatus.backInStockDate"></span>
+  </p>
+  {% if back_in_stock_date != empty and back_in_stock_date != null %}
+    <p class="w-full">{{ 'products.product.back_in_stock_date' | t: date: back_in_stock_date }}</p>
+  {% endif %}
+</div>

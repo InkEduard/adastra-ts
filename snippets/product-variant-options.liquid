@@ -1,0 +1,58 @@
+{% comment %}
+  Renders variants
+
+  Accepts:
+  - product: {Object} Product
+  - option: {Object} Current product_option object
+  - options: {Object} product_options object
+  - prefix: {String} Needed for variants initialize
+  - option_name: {String}
+
+  Usage:
+  {% render 'product-variant-options', product: product, options: options, option: option, prefix: string, option_name: string %}
+{% endcomment %}
+
+{% for value in options %}
+  {% liquid
+    assign value_downcased = value | downcase
+  %}
+  <label
+    {% if option_name contains 'color' %}
+      {%- render 'product-variant-color', value: value_downcased, product: product -%}
+    {% endif %}
+    class="
+      variant group relative inline-flex cursor-pointer items-center justify-center border border-gray-light text-center has-[:disabled]:pointer-events-none has-[:disabled]:overflow-hidden has-[:disabled]:border-gray-light has-[:disabled]:bg-[#f5f5f5] has-[:disabled]:text-gray has-[:disabled]:after:absolute has-[:disabled]:after:left-0 has-[:disabled]:after:right-0 has-[:disabled]:after:top-1/2 has-[:disabled]:after:h-px has-[:disabled]:after:rotate-45 has-[:disabled]:after:bg-[#d2cfcd]
+      {% if option_name contains 'color' %}
+        bg-cover bg-no-repeat bg-center rounded-full text-[0] h-7.5 w-7.5 transition-all md:h-6.5 md:w-6.5 lg:hover:border-2 lg:hover:border-primary lg:hover:scale-125
+      {% else %}
+        uppercase -ml-px text-xs text-primary p-2.75 basis-1/4 transition-all mt-1.5 lg:hover:bg-primary lg:hover:text-white lg:hover:border-primary
+      {% endif %}
+    "
+    for="{% if prefix %}{{ prefix }}-{% endif %}{{ product.id }}-{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+  >
+    {{ value }}
+    <input
+      :disabled="availableVariants.filter(option => option === '{{ value }}').length ? false : true"
+      :checked="isChecked('{{ product.id }}','{{ option.position }}', '{{ value | replace: '"', '&quot;' }}', {{ option.values.size }}, '{{ option_name }}', '{{ prefix }}')"
+      @click="onVariantChange('option{{ option.position }}', '{{ value | replace: '"', '&quot;' }}', '{{ option_name }}', '{{ prefix }}')"
+      class="hidden"
+      type="radio"
+      id="{% if prefix %}{{ prefix }}-{% endif %}{{ product.id }}-{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+      name="{{ option.name }}"
+      value="{{ value | escape }}"
+    >
+  </label>
+{% endfor %}
+
+{% style %}
+  fieldset:not(.color) .variant:has(input[checked]) {
+    background-color: rgba(var(--color-primary));
+    border-color: rgba(var(--color-primary));
+    color: #fff;
+  }
+
+  fieldset.color .variant:has(input[checked]) {
+    border-color: rgba(var(--color-primary));
+    border-width: 2px;
+  }
+{% endstyle %}

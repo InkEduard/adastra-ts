@@ -1,0 +1,31 @@
+{% comment %}
+  Renders product add to cart button
+
+  Accepts:
+  - mini_button: {Boolean} Determines the size of the button.
+
+  Usage:
+  {% render 'add-to-cart-button', class: '' %}
+{% endcomment %}
+
+<button
+  @click.prevent="
+    () => {
+      if ($data.currentVariant && $data.currentVariant.id) {
+        $data.isValid = true;
+        add();
+
+        return;
+      }
+
+      $data.isValid = false;
+    }
+  "
+  :disabled="disabled"
+  type="submit"
+  class="rounded-large border border-primary bg-primary p-3.25 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-primary disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark md:p-4 shrink-0 {{ class }}"
+>
+  <span x-cloak x-show="loading">{{ 'products.product.adding_to_cart' | t }}</span>
+  <span x-cloak x-show="added">{{ 'products.product.added_to_cart' | t }}</span>
+  <span x-show="!loading && !added && !disabled">{{ 'products.product.add_to_cart' | t }}</span>
+</button>

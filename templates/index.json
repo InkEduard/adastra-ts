@@ -1,0 +1,75 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
+{
+  "sections": {
+    "banner-hp": {
+      "type": "banner-hp",
+      "blocks": {
+        "column_7RAcDA": {
+          "type": "column",
+          "settings": {
+            "is_video": "image",
+            "image_desktop": "shopify:\/\/shop_images\/hp-banner.jpg",
+            "title": "Atypical goods",
+            "title_font_size_desktop": 70,
+            "title_line_height_desktop": 70,
+            "title_font_size_mobile": 30,
+            "title_line_height_mobile": 34,
+            "title_color": "#ffffff",
+            "description": "<p>Industrial design meets fashion.<\/p>",
+            "description_font_size_desktop": 24,
+            "description_line_height_desktop": 32,
+            "description_font_size_mobile": 14,
+            "description_line_height_mobile": 16,
+            "description_color": "#ffffff",
+            "is_external_link": false,
+            "button_url": "",
+            "button_text": "",
+            "main_button_color": "black",
+            "is_external_link_additional": false,
+            "button_url_additional": "",
+            "button_text_additional": "",
+            "additional_button_color": "black"
+          }
+        }
+      },
+      "block_order": [
+        "column_7RAcDA"
+      ],
+      "settings": {
+        "margin_bottom_desktop": 80,
+        "margin_bottom_mobile": 40
+      }
+    },
+    "featured_collection_zaPTXy": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured collection",
+        "description": "<p>Description of the recommended collection<\/p>",
+        "collection": "bags",
+        "products_to_show_desktop": 4,
+        "products_to_show_tablet": 3,
+        "products_to_show_mobile": 2,
+        "full_width": false,
+        "show_view_all": true,
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": false,
+        "margin_bottom_desktop": 80,
+        "margin_bottom_mobile": 40
+      }
+    }
+  },
+  "order": [
+    "banner-hp",
+    "featured_collection_zaPTXy"
+  ]
+}

@@ -1,0 +1,124 @@
+<nav x-data="menu()" class="flex items-center w-full test-1">
+  <button
+    class="block items-center justify-center h-5 w-5 lg:hidden focus:outline-none focus:ring-2 focus:ring-blue-light/60 focus:ring-offset-1"
+    @click="$store.menuState.isMenuOpened = true">
+    {% render 'icon', icon: 'burger', class: '!w-6 !h-6' %}
+  </button>
+  <div class="menu-mask bg-black bg-opacity-30 z-[118] absolute left-0 w-full h-dvh top-0 hidden"
+    :class="{'!block lg:!hidden': $store.menuState.isMenuOpened === true}"
+    @click="$store.menuState.isMenuOpened = false" x-ref="menuMask">
+  </div>
+  <div class="fixed z-[119] top-0 left-0 h-full w-full -translate-x-full transition ease-out lg:z-[9] lg:static lg:!translate-x-[initial]"
+    :class="{'!translate-x-0': $store.menuState.isMenuOpened === true}">
+    <div
+      class="main-menu flex flex-col w-full h-dvh overflow-y-auto lg:h-full lg:w-full bg-white lg:bg-transparent relative lg:static z-[119] lg:overflow-[initial]"
+      x-ref="menu">
+      <div class="relative text-base font-bold font-heading bg-green-light text-white px-2.5 py-3.75 lg:hidden">
+        <span>Menu</span>
+        <button
+          class="lg:hidden items-center justify-center absolute right-2 top-4 z-[120] h-5 w-5 focus:outline-none focus:ring-2 focus:ring-blue-light focus:ring-offset-1"
+          :class="$store.menuState.isMenuOpened === true ? '!flex lg:!hidden' : ''"
+          @click="$store.menuState.isMenuOpened = false">
+          {% render 'icon', icon: 'close', class: '!w-5 !h-5 text-white' %}
+        </button>
+      </div>
+      <ul class="flex flex-col pt-3.5 lg:flex-row lg:justify-center lg:h-full lg:pt-0" role="list">
+        {%- for link in section.settings.menu.links -%}
+          {%- if link.links != blank -%}
+            {%- liquid assign index = forloop.index -%}
+            <li class="flex items-center">
+              <header-menu class="flex h-full w-full lg:w-auto" @scroll.window="desktopCloseMenu()">
+                <aw-details class="flex flex-col w-full lg:flex-row lg:w-auto" @mouseleave="() => menuOut(event)">
+                  <aw-summary
+                    class="flex items-center justify-between relative text-sm leading-5 font-bold text-brown uppercase px-2.5 py-3 w-full transition-all duration-700 cursor-pointer lg:hover:text-orange-light lg:gap-x-1.5 lg:w-auto lg:justify-start lg:px-3 lg:py-5"
+                    :class="selected === {{ index }} ? 'open !text-orange-light' : ''"
+                    @click="() => toggleSelected(event, {{ index }})"
+                    @mouseover="selected !== {{ index }} ? () => toggleSelected(event, {{ index }}) : ''">
+                    <span>
+                      {{- link.title | escape -}}
+                    </span>
+                    <span class="transition-all" :class="selected === {{ index }} ? 'rotate-180' : ''">
+                      {% render 'icon', icon: 'arrow-down', class: '!w-4 !h-3.5 text-brown' %}
+                    </span>
+                  </aw-summary>
+                  <div
+                    x-ref="content_{{ index }}"
+                    style
+                    x-bind:style="selected == {{ index }} ? 'max-height: ' + $refs.content_{{ index }}.scrollHeight + 'px' : ''"
+                    x-cloak
+                    x-transition
+                    class="submenu overflow-hidden transition-all max-h-0 duration-700 lg:absolute z-[2] left-0 top-full bg-white w-full lg:!max-h-[initial] lg:hidden lg:shadow-md lg:border-t lg:border-brown/20"
+                    :class="selected === {{ index }} ? 'lg:!block' : ''" x-ref="submenu" role="list">
+                    <div class="container">
+                      <ul class="grid gap-x-2.5 pb-3.5 lg:grid-cols-4 lg:gap-x-5 gap-y-2.5 lg:py-10">
+                        {%- for childLink in link.links -%}
+                          {%- assign link_type = childLink.type -%}
+                          {%- assign link_object = childLink.object -%}
+                          <li>
+                            <div class="flex relative">
+                              <a href="{{ childLink.url }}" title="{{- childLink.title | escape -}}" {% if childLink.current
+                                %} aria-current="page" {% endif %}
+                                class="child-link flex items-center justify-center h-20 overflow-hidden relative text-sm text-white uppercase transition ease-out rounded-lg border border-dashed border-brown/20 w-full px-5 py-2.5 font-heading lg:before:content-[''] lg:before:block lg:before:absolute lg:before:left-0.5 lg:before:top-0.5 lg:before:z-[2] lg:before:w-[calc(100%-4px)] lg:before:h-[calc(100%-4px)] lg:before:rounded-md lg:before:bg-black lg:before:opacity-25 lg:before:transition-all lg:before:duration-700 lg:text-lg lg:font-bold">
+                                <span class="relative z-[3]">{{ childLink.title | escape }}</span>
+                                {%- if link_type == 'collection_link' and link_object.image != blank -%}
+                                  <img
+                                    src="{{ link_object.image | image_url: width: 400 }}"
+                                    width="400"
+                                    height="200"
+                                    class="w-[calc(100%-4px)] h-[calc(100%-4px)] object-cover object-[50%_85%] absolute left-0.5 top-0.5 z-[1] rounded-md"
+                                    alt="{{ childLink.title }}">
+                                {%- endif -%}
+                              </a>
+                            </div>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  </div>
+                </aw-details>
+              </header-menu>
+            </li>
+          {%- else -%}
+            <li class="flex items-center">
+              <a class="flex items-center text-sm leading-5 font-bold uppercase px-2.5 py-3 w-full h-full transition-all duration-700 hover:text-orange-light lg:w-auto lg:px-3 lg:py-5"
+                href="{{ link.url }}" title="{{- link.title | escape -}}" {% if link.current %} aria-current="page" {% endif %}>
+                <span>
+                  {{- link.title | escape -}}
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="mt-auto py-3 border-t border-dashed border-brown/20 lg:hidden">
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          title="Account"
+          class="inline-flex items-center gap-2.5 text-sm leading-5 font-bold px-2.5 py-3 uppercase text-brown transition-colors hover:text-orange-light"
+        >
+          {% render 'icon', icon: 'user', class: '!h-6 !w-6' %}
+          <span>Account</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{% style %}
+  .arrow-down {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 700ms;
+  }
+
+  aw-summary.open .arrow-down {
+    color: rgba(var(--color-orange-light) / 1);
+  }
+
+  @media (min-width: 768px) {
+    .child-link:hover:before {
+      background-color: rgba(var(--color-green-light) / 1);
+      opacity: 0.85;
+    }
+  }
+{% endstyle %}

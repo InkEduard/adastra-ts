@@ -1,0 +1,138 @@
+{% comment %}
+  Renders variants
+
+  Accepts:
+  - product_target: {Object} Product Liquid object
+  - prefix: {String} Needed for variants initialize
+  - variants_class: {String} (Optional)
+
+  Usage:
+  {% render 'product-variant-picker' %}
+{% endcomment %}
+
+{% comment %} {% unless product_target.has_only_default_variant %} {% endcomment %}
+  <variant-radios
+    id="variant-radios-{{ section.id }}"
+    {% if variants_class %}
+      class="{{ variants_class }}"
+    {% endif %}
+    {{ block.shopify_attributes }}
+  >
+
+    {% for option in product_target.options_with_values %}
+      {% liquid
+        assign option_name = option.name | downcase
+        assign option_name_key = option_name | replace: ' ', '_'
+        assign missed_options = '' | split: ','
+        assign options = '' | split: ','
+
+        for option_value in option.values
+          assign tmp_option = option_value | split: ',  '
+          assign options = options | concat: tmp_option
+        endfor
+      %}
+      <fieldset class="{{ option_name }}{% unless forloop.last %} mb-10 md:mb-8.5{% endunless %}">
+        <legend class="mb-3.25 text-xs font-bold uppercase">
+          {{ option.name | replace: 'Apparel ', '' | replace: 'Shoes ', '' }}:
+          <span class="font-light capitalize" x-text="options['option{{ option.position }}']"></span>
+        </legend>
+        <div
+          class="flex flex-wrap{% if option_name contains 'color' %} gap-1.75 md:grid md:grid-cols-[repeat(auto-fill,minmax(26px,1fr))]{% else %} -mt-1.5 ml-px -mr-1{% endif %} {% if product_target.has_only_default_variant %} hidden{% endif %}"
+        >
+          {% render 'product-variant-options',
+            option: option,
+            options: options,
+            product: product_target,
+            prefix: prefix,
+            option_name: option_name
+          %}
+        </div>
+        <template x-if="!isValid">
+          <div
+            x-effect="isValid = Object.values(options).length === optionsCount ? true : false"
+            class="mt-2.5 hidden text-xs text-red empty:mt-0"
+            :class="{ '!block': !options['option{{ option.position }}'] }"
+          >
+            <span>{{ 'products.product.required' | t }}</span>
+          </div>
+        </template>
+      </fieldset>
+    {% endfor %}
+
+    {% liquid
+      if prefix == 'main'
+        for variant in product_target.variants
+          assign available_on_date = variant.metafields.custom.available_on_date
+          if available_on_date != null
+            assign available_on_date = available_on_date | date: '%m/%d/%Y' | append: '"' | prepend: '"'
+            assign variant_id = variant.id | append: '"' | prepend: '"'
+            assign back_in_stock_data = back_in_stock_data | append: variant_id | append: ': ' | append: available_on_date | append: ', '
+          endif
+        endfor
+        assign back_in_stock_data = back_in_stock_data | remove_last: ', '
+      endif
+    %}
+    
+    {% if prefix == 'main' %}
+      <script type="application/json" x-ref="variants-back-in-stock-date-{{ product_target.id }}">
+        {{- back_in_stock_data -}}
+      </script>
+    {% endif %}
+
+    <script type="application/json" x-ref="variants-data-{{ product_target.id }}">
+      {{ product_target.variants | json }}
+    </script>
+    <script type="application/json" x-ref="variants-images-{{ product_target.id }}">
+      [
+        {%- for variant in product_target.variants -%}
+          {
+            {%- if variant.featured_image or variant.metafields.custom.gallery -%}
+              {%- if variant.featured_image -%}
+                "featured_image": {
+                  "{{ variant.option1 | replace: '"', '&quot;' }},{{ variant.option2 | replace: '"', '&quot;' }},{{ variant.option3 | replace: '"', '&quot;' }}": "{{ variant.featured_image | image_url: width: 1080 }}"
+                }
+              {%- endif -%}
+              {%- if variant.metafields.custom.gallery -%}
+                {%- if variant.featured_image -%},{%- endif -%}
+                "gallery": {
+                  {%- for additional_image in variant.metafields.custom.gallery.value -%}
+                    {% unless forloop.first %},{% endunless %}
+                    "{{ variant.option1 | replace: '"', '&quot;' }},{{ variant.option2 | replace: '"', '&quot;' }},{{ variant.option3 | replace: '"', '&quot;' }},{{ forloop.index }}": "{{ additional_image | image_url: width: 1080 }}"
+                  {%- endfor -%}
+                }
+              {%- endif -%}
+            {%- endif -%}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+  </variant-radios>
+
+  {% style %}
+    fieldset:not(.color) .variant:has(input[checked]) {
+      background-color: #000;
+    }
+
+    fieldset.color .variant:has(input[checked]) {
+      border-width: 2px;
+    }
+
+    fieldset.color .variant[style*='background-color: #0000']:has(input[checked]):before {
+      border: 1px solid #000;
+      border-radius: 50%;
+      content: '';
+      height: calc(100% + 4px);
+      left: -2px;
+      position: absolute;
+      top: -2px;
+      width: calc(100% + 4px);
+    }
+
+    fieldset.color .variant[style*='background-color: #0000']:has(input[checked]) {
+      border-color: #fff;
+    }
+  {% endstyle %}
+
+{% comment %} {% else %} {% endcomment %}
+  
+{% comment %} {% endunless %} {% endcomment %}

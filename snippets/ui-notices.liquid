@@ -1,0 +1,63 @@
+{% render 'ui-head', header: 'Notices' %}
+<div class="container py-14">
+  <div class="flex gap-10">
+    <div class="flex items-center justify-center gap-4" x-data>
+      <button
+        class="rounded border border-green-light bg-green-light px-6 py-4 text-sm font-medium uppercase text-white transition-colors hover:border-green-light hover:bg-white hover:text-green-light focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-orange-light disabled:bg-orange-light disabled:text-white disabled:opacity-50 disabled:pointer-events-none"
+        @click="
+            $dispatch(
+            'notice',
+            {
+              type: 'success',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+            }
+          )
+        "
+      >
+        Succes
+      </button>
+      <button
+        class="rounded border border-red bg-red px-6 py-4 text-sm font-medium uppercase text-white transition-colors hover:border-red hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-orange-light disabled:bg-orange-light disabled:text-white disabled:opacity-50 disabled:pointer-events-none"
+        @click="
+            $dispatch(
+            'notice',
+            {
+              type: 'error',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+            }
+          )
+        "
+      >
+        Error
+      </button>
+      <button
+        class="rounded border border-blue-light bg-blue-light px-6 py-4 text-sm font-medium uppercase text-white transition-colors hover:border-blue-light hover:bg-white hover:text-blue-light focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-orange-light disabled:bg-orange-light disabled:text-white disabled:opacity-50 disabled:pointer-events-none"
+        @click="
+            $dispatch(
+            'notice',
+            {
+              type: 'info',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+            }
+          )
+        "
+      >
+        Info
+      </button>
+      <button
+        class="rounded border border-orange bg-orange px-6 py-4 text-sm font-medium uppercase text-white transition-colors hover:border-orange-light hover:bg-white hover:text-orange focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-orange-light disabled:bg-orange-light disabled:text-white disabled:opacity-50 disabled:pointer-events-none"
+        @click="
+            $dispatch(
+            'notice',
+            {
+              type: 'warning',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+            }
+          )
+        "
+      >
+        Warning
+      </button>
+    </div>
+  </div>
+</div>

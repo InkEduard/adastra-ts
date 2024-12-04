@@ -1,0 +1,226 @@
+<footer class="footer bg-brown pt-4.5 md:pt-12 pb-5">
+  <div class="container">
+    <div class="grid grid-cols-4 gap-y-6 gap-x-5 lg:gap-y-10 md:grid-cols-12">
+      {%- assign quick_links = 'quick_links' -%}
+      {% if section.settings.quick_links != blank %}
+        <div
+          class="col-span-4 order-2 md:col-span-12 lg:order-1 lg:col-span-3"
+          x-data="{ isOpen: false }">
+          <h2
+            class="flex justify-between items-center text-green-light text-lg font-bold lg:mb-5"
+            @click="isOpen = !isOpen">
+            Quick links
+            <span class="lg:hidden" :class="isOpen === true ? 'rotate-180' : ''">
+              {% render 'icon', icon: 'arrow-down', class: '!w-4 !h-3.5 text-green-light' %}
+            </span>
+          </h2>
+          <div
+            class="faq-block-contact relative overflow-hidden transition-all max-h-0 duration-700 lg:!max-h-[initial] lg:!block"
+            style
+            x-ref="content_quick_links" x-bind:style="isOpen == true ? 'max-height: ' + $refs.content_quick_links.scrollHeight + 'px' : ''"
+            x-cloak
+            x-transition>
+            <ul class="footer-navigation flex flex-col gap-4 pt-5 lg:pt-0">
+              {%- for link in section.settings.quick_links.links -%}
+                <li>
+                  <a class="text-white text-sm transition-all duration-700 hover:text-orange-light" href="{{ link.url }}" title="{{- link.title | escape -}}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+      {% if section.settings.menu != blank %}
+        <div
+          class="col-span-4 order-3 md:col-span-12 lg:order-2 lg:col-span-3"
+          x-data="{ isOpen: false }">
+          <h2
+            class="flex justify-between items-center text-green-light text-lg font-bold lg:mb-5"
+            @click="isOpen = !isOpen">
+            Info
+            <span class="lg:hidden" :class="isOpen === true ? 'rotate-180' : ''">
+              {% render 'icon', icon: 'arrow-down', class: '!w-4 !h-3.5 text-green-light' %}
+            </span>
+          </h2>
+          <div
+            class="faq-block-contact relative overflow-hidden transition-all max-h-0 duration-700 lg:!max-h-[initial] lg:!block"
+            style
+            x-ref="content_info" x-bind:style="isOpen == true ? 'max-height: ' + $refs.content_info.scrollHeight + 'px' : ''"
+            x-cloak
+            x-transition>
+            <ul class="footer-navigation flex flex-col gap-4 pt-5 lg:pt-0">
+              {%- for link in section.settings.menu.links -%}
+                <li>
+                  <a class="text-white text-sm transition-all duration-700 hover:text-orange-light" href="{{ link.url }}" title="{{- link.title | escape -}}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+      <div class="col-span-4 order-1 md:col-span-12 lg:order-3 lg:col-span-6">
+        {%- if section.settings.newsletter_enable -%}
+          {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter-form__field-wrapper">
+              <div class="field flex flex-col">
+                <label class="field__label hidden lg:flex w-full leading-normal text-orange-light text-lg mb-5" for="NewsletterForm--{{ section.id }}">
+                  <h2 class="text-green-light text-lg font-bold">{{ 'newsletter.label' | t }}</h2>
+                </label>
+                <div class="flex relative">
+                  <input
+                    id="NewsletterForm--{{ section.id }}"
+                    type="email"
+                    name="contact[email]"
+                    class="field__input block w-full text-lg leading-6 text-brown px-5 py-3 rounded border-gray transition-all placeholder:text-lg placeholder:leading-6 placeholder:text-brown/[.5] focus:border-primary focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-gray-light disabled:bg-gray-medium disabled:text-white"
+                    value="{{ form.email }}"
+                    aria-required="true"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    {% if form.errors %}
+                      autofocus
+                      aria-invalid="true"
+                      aria-describedby="ContactFooter-error"
+                    {% elsif form.posted_successfully? %}
+                      aria-describedby="ContactFooter-success"
+                    {% endif %}
+                    placeholder="{{ 'newsletter.label' | t }}"
+                    required
+                  >
+                  <button
+                    type="submit"
+                    class="newsletter-form__button field__button h-[calc(100%-4px)] px-[13px] absolute right-0.5 top-0.5 rounded-sm transition-all duration-700 hover:bg-green-light focus:outline-none focus:ring-2 focus:ring-green-light focus:ring-offset-1 disabled:border-transparent disabled:bg-transparent disabled:opacity-50 disabled:text-white"
+                    name="commit"
+                    id="Subscribe"
+                    aria-label="{{ 'newsletter.button_label' | t }}"
+                  >
+                    {% render 'icon', icon: 'arrow-right', class: '!w-5 !h-5 text-green-light' %}
+                  </button>
+                </div>
+              </div>
+              {%- if form.errors -%}
+                <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </small>
+              {%- endif -%}
+            </div>
+            {%- if form.posted_successfully? -%}
+              <h3
+                class="newsletter-form__message newsletter-form__message--success form__message"
+                id="ContactFooter-success"
+                tabindex="-1"
+                autofocus
+              >
+                {{- 'newsletter.success' | t }}
+              </h3>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  {% if section.settings.copyright != blank %}
+    <div class="container">
+      <div class="flex justify-between items-center border-t border-white/20 pt-5 mt-15">
+        <p class="text-xs text-white">
+          &copy; {{ 'now' | date: '%Y' }} {% if section.settings.copyright != blank %}{{ section.settings.copyright }}{% else %}{{ shop.name }}{% endif %}
+        </p>
+
+        {% render 'payments-icons', color: 'text-white', section_settings: section.settings %}
+      </div>
+    </div>
+  {%- endif -%}
+</footer>
+
+{% style %}
+  .shopify-section-group-footer-group {
+    margin-top: auto;
+  }
+
+  .newsletter-form__button svg {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 700ms;
+  }
+
+  .newsletter-form__button:hover svg {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .payments-icons svg {
+    fill: rgba(255, 255, 255, 1);
+  }
+{% endstyle %}
+
+
+{% schema %}
+  {
+    "name": "Footer",
+    "enabled_on": {
+      "groups": ["footer"]
+    },
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_enable",
+        "default": true,
+        "label": "Newsletter enable"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "default": "footer",
+        "label": "Menu info",
+        "info": "Displays only top-level menu items."
+      },
+      {
+        "type": "link_list",
+        "id": "quick_links",
+        "default": "footer",
+        "label": "Quick links",
+        "info": "Displays only top-level quick links items."
+      },
+      {
+        "type": "text",
+        "id": "copyright",
+        "label": "Footer copyright text"
+      },
+      {
+        "type": "header",
+        "content": "Payments icons"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_visa",
+        "default": true,
+        "label": "Show Visa icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_mastercard",
+        "default": true,
+        "label": "Show Mastercard icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_amex",
+        "default": true,
+        "label": "Show Amex icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_paypal",
+        "default": true,
+        "label": "Show PayPal icon"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_discover",
+        "default": true,
+        "label": "Show Discover icon"
+      }
+    ]
+  }
+{% endschema %}

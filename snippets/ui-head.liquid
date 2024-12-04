@@ -1,0 +1,17 @@
+{% comment %}
+  Renders header for Frontend Guide components.
+
+  Accepts:
+    - header: {String} Header (required)
+
+  Usage:
+    {% render 'ui-head', header: 'Colors' %}
+{% endcomment %}
+
+{% if header != blank %}
+  <div class="bg-gray-light py-4">
+    <div class="container">
+      <h2 class="font-heading font-bold uppercase">{{ header }}</h2>
+    </div>
+  </div>
+{% endif %}

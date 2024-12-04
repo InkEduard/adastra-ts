@@ -1,0 +1,106 @@
+<header class="header border-b border-brown/20" x-ref="header">
+  <div class="header__sticky">
+    <div class="relative header__inner">
+      <div class="container header__container">
+        <div class="flex justify-between header__content">
+          <div class="header__menu flex lg:justify-center lg:order-2 w-2/5 lg:w-1/2">
+            {% if section.settings.menu != blank %}
+              {% render 'header-menu',
+                section_settings: section.settings
+              %}
+            {% endif %}
+          </div>
+          <div class="header__logo flex justify-center lg:justify-start lg:order-1 w-1/5 lg:w-1/4 py-5">
+            <a
+              class="inline-flex"
+              href="{{ routes.root_url }}"
+              title="{{ shop.name }}">
+              {%- if settings.logo != blank -%}
+                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {% capture sizes %}(min-width: 750px) {{ settings.logo_width }}px, 50vw{% endcapture %}
+                {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+                {{
+                  settings.logo
+                  | image_url: width: settings.logo_width
+                  | image_tag:
+                    widths: widths,
+                    height: logo_height,
+                    width: settings.logo_width,
+                    alt: logo_alt,
+                    sizes: sizes,
+                    preload: true
+                }}
+              {%- else -%}
+                <span>{{ shop.name }}</span>
+              {%- endif -%}
+            </a>
+          </div>
+          <div class="header__links flex items-center justify-end lg:order-3 w-2/5 lg:w-1/4">
+            <div class="flex items-center">
+              <a
+                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                title="Account"
+                class="ml-6.5 inline-flex items-center gap-1.25 text-xxs uppercase text-brown transition-colors hover:text-orange-light"
+              >
+                {% render 'icon', icon: 'user', class: '!h-6 !w-6' %}
+              </a>
+              <a
+                href="{{ routes.cart_url }}"
+                @click.prevent="$store.cartDrawer.showMinicart = true, $store.cartDrawer.active = true"
+                class="link focus-inset ml-3.5 mr-2 text-brown relative lg:ml-4 lg:hover:text-orange-light"
+                id="cart-icon-bubble"
+                :class="{ 'pointer-events-none': $store.cartData.data.item_count === 0 }">
+                {% render 'icon', icon: 'cart', class: 'inline-block !w-6 !h-6' %}
+                <span x-cloak x-show="$store.cartData.data.item_count > 0" class="absolute block -top-0.5 -right-1.5 rounded-full bg-green h-[12px] w-[10px] rotate-45"></span>
+              </a>
+              {% comment %} {% render 'drawer-cart' %} {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Header",
+    "blocks": [
+      {
+        "type": "@app"
+      }
+    ],
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "menu",
+        "default": "main-menu",
+        "label": "Menu"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,442 @@
+<section class="relative px-2.5 pt-2.5 banner-hp">
+  <div
+    class="swiper banner-hp-slider"
+    x-data="
+      swiper({
+        loop: true,
+        pagination: {
+          clickable: true,
+          el: '.swiper-pagination'
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      })
+    "
+  >
+    <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign index = forloop.index
+        -%}
+        <div
+          class="swiper-slide slide relative flex items-center"
+        >
+          <div class="absolute left-0 top-0 h-full w-full z-[1] {%- if block.settings.is_video != 'video' -%} before:block before:absolute before:rounded-xl before:top-0 before:left-0 before:z-[2] before:content-[''] before:w-full before:h-full before:bg-black/10 md:before:rounded-2xl{%- endif -%}">
+            {%- if block.settings.is_video == 'video' -%}
+              {{
+                block.settings.video
+                | video_tag:
+                  image_size: '2048x',
+                  autoplay: true,
+                  loop: true,
+                  controls: false,
+                  muted: true,
+                  preload: true,
+                  class: 'h-full w-full object-cover object-center min-h-[266px] md:min-h-[500px] aspect-[16/11] md:aspect-[16/9.5] lg:aspect-[16/7]'
+              }}
+            {%- else -%}
+              {%- if block.settings.image_mobile != blank -%}
+                <img
+                  src="{{ block.settings.image_mobile | image_url: width: 768 }}"
+                  class="block h-full w-full rounded-xl object-cover object-center md:hidden md:rounded-2xl"
+                  alt="{{ block.settings.image_mobile.alt }}"
+                >
+                <img
+                  src="{{ block.settings.image_desktop | image_url: width: 1920 }}"
+                  class="hidden h-full w-full rounded-xl object-cover object-center md:block md:rounded-2xl"
+                  alt="{{ block.settings.image_desktop.alt }}"
+                >
+              {% elsif block.settings.image_desktop != blank %}
+                <img
+                  src="{{ block.settings.image_desktop | image_url: width: 1920 }}"
+                  class="block h-full w-full rounded-xl object-cover object-center md:rounded-2xl"
+                  alt="{{ block.settings.image_desktop.alt }}"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'block h-full w-full rounded-xl object-cover object-center md:rounded-2xl bg-gray-100' }}
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+          <div class="relative z-10 flex min-h-[220px] w-full items-center md:min-h-[600px] lg:min-h-[800px] {%- if block.settings.is_video == 'video' -%} aspect-[16/9]{%- endif -%}">
+            <div class="container">
+              <div class="banner-hp__content-{{ index }} flex flex-col">
+                {%- if block.settings.title != blank -%}
+                  <h1 class="banner-hp__title mb-3 text-center text-4xl font-bold uppercase md:mb-5 md:text-6xl xl:mb-6 xl:text-7xl">{{ block.settings.title }}</h1>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <div class="banner-hp__description text-sm text-center md:text-xl xl:text-2xl {% if block.settings.button_url != blank or block.settings.button_url_additional != blank %}mb-7 md:mb-6 xl:mb-10{% endif %}">
+                    {{ block.settings.description }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.button_url != blank or block.settings.button_url_additional != blank -%}
+                  <div class="flex justify-center gap-2.5 md:justify-start xl:gap-5">
+                    {%- if block.settings.button_url != blank -%}
+                      <a
+                        href="{{ block.settings.button_url }}"
+                        {% if block.settings.is_external_link == true %}
+                          target="_blank"
+                        {% endif %}
+                        class="banner-hp__button banner-hp__button--main inline-block rounded-large border border-primary bg-primary px-7.5 py-4 text-center text-xs font-bold uppercase text-white transition-colors hover:bg-white hover:text-primary focus:outline-none focus:ring-4 focus:ring-red/[.15] focus:ring-offset-0 disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark md:px-10 lg:w-1/2"
+                      >
+                        {%- if block.settings.button_text != blank -%}
+                          <span>{{ block.settings.button_text }}</span>
+                        {%- endif -%}
+                      </a>
+                    {%- endif -%}
+                    {%- if block.settings.button_url_additional != blank -%}
+                      <a
+                        href="{{ block.settings.button_url_additional }}"
+                        {% if block.settings.is_external_link_additional == true %}
+                          target="_blank"
+                        {% endif %}
+                        class="banner-hp__button banner-hp__button--additional inline-block rounded-large border border-primary bg-primary px-7.5 py-4 text-center text-xs font-bold uppercase text-white transition-colors hover:bg-white hover:text-primary focus:outline-none focus:ring-4 focus:ring-red/[.15] focus:ring-offset-0 disabled:border-gray-light disabled:bg-gray-light disabled:text-gray-dark md:px-10 lg:w-1/2"
+                      >
+                        {%- if block.settings.button_text_additional != blank -%}
+                          <span>{{ block.settings.button_text_additional }}</span>
+                        {%- endif -%}
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {% style %}
+                  .banner-hp__content-{{ index }} .banner-hp__title  {
+                    color: {{ block.settings.title_color }};
+                  }
+
+                  .banner-hp__content-{{ index }} .banner-hp__description  {
+                    color: {{ block.settings.description_color }};
+                  }
+
+                  {% if block.settings.main_button_color == 'white' %}
+                    .banner-hp__content-{{ index }} .banner-hp__button--main {
+                      background-color: rgb(255 255 255 / 1);
+                      border-color: rgb(255 255 255 / 1);
+                      color: rgba(var(--color-primary) / 1);
+                    }
+                    .banner-hp__content-{{ index }} .banner-hp__button--main:hover {
+                      background-color: rgba(var(--color-primary) / 1);
+                      border-color: rgba(var(--color-primary) / 1);
+                      color: rgb(255 255 255 / 1);
+                    }
+                  {% endif %}
+
+                  {% if block.settings.additional_button_color == 'white' %}
+                    .banner-hp__content-{{ index }} .banner-hp__button--additional {
+                      background-color: rgb(255 255 255 / 1);
+                      border-color: rgb(255 255 255 / 1);
+                      color: rgba(var(--color-primary) / 1);
+                    }
+                    .banner-hp__content-{{ index }} .banner-hp__button--additional:hover {
+                      background-color: rgba(var(--color-primary) / 1);
+                      border-color: rgba(var(--color-primary) / 1);
+                      color: rgb(255 255 255 / 1);
+                    }
+                  {% endif %}
+
+                  @media (max-width: 767px) {
+                    .banner-hp__content-{{ index }} .banner-hp__title  {
+                      font-size: {{ block.settings.title_font_size_mobile }}px;
+                      line-height: {{ block.settings.title_line_height_mobile }}px;
+                    }
+
+                    .banner-hp__content-{{ index }} .banner-hp__description  {
+                      font-size: {{ block.settings.description_font_size_mobile }}px;
+                      line-height: {{ block.settings.description_line_height_mobile }}px;
+                    }
+                  }
+
+                  @media (min-width: 768px) {
+                    .banner-hp__content-{{ index }} .banner-hp__title  {
+                      font-size: {{ block.settings.title_font_size_desktop }}px;
+                      line-height: {{ block.settings.title_line_height_desktop }}px;
+                    }
+
+                    .banner-hp__content-{{ index }} .banner-hp__description  {
+                      font-size: {{ block.settings.description_font_size_desktop }}px;
+                      line-height: {{ block.settings.description_line_height_desktop }}px;
+                    }
+                  }
+                {% endstyle %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <button
+      class="swiper-button-prev absolute left-2.5 top-1/2 z-50 hidden h-5 w-5 -translate-y-1/2 items-center justify-center md:left-2.5 md:md:h-[42px] md:md:w-[42px] md:rounded-full md:bg-white md:shadow-xl xl:left-5 2xl:left-[6%]"
+      :class="{'!flex': isVisibleNavigation}"
+    >
+      {% render 'icon', icon: 'arrow-left', class: 'button-icon md:!h-6 md:!w-6 text-black' %}
+    </button>
+    <button
+      class="swiper-button-next absolute right-2.5 top-1/2 z-50 hidden h-5 w-5 -translate-y-1/2 items-center justify-center md:right-2.5 md:md:h-[42px] md:md:w-[42px] md:rounded-full md:bg-white md:shadow-xl xl:right-5 2xl:right-[6%]"
+      :class="{'!flex': isVisibleNavigation}"
+    >
+      {% render 'icon', icon: 'arrow-right', class: 'button-icon md:!h-6 md:!w-6 text-black' %}
+    </button>
+
+    <div
+      class="hidden w-full grid-cols-12"
+      :class="{'!grid': isVisiblePagination}">
+      <div class="col-span-12 xl:col-span-10 xl:col-start-2">
+        <div class="container">
+          <div class="grid grid-cols-4 gap-5 md:grid-cols-12 ">
+            <div class="relative col-span-4 col-start-1 md:col-span-7 md:col-start-2 lg:col-span-4 lg:col-start-2 xl:col-start-1">
+              <div
+                class="swiper-pagination dashed absolute bottom-7.5 left-1/2 -translate-x-1/2 md:bottom-16 md:left-10 md:translate-x-0 lg:bottom-[70px] lg:left-0 xl:bottom-20 2xl:left-[75px]"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% style %}
+  .banner-hp {
+    margin-bottom: {{ section.settings.margin_bottom_desktop }}px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .banner-hp {
+      margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "HP Top Banner",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section indent"
+      },
+      {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Section indent bottom on desktop",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Section indent bottom on mobile",
+      "default": 0
+    }
+    ],
+    "blocks": [
+      {
+        "type": "column",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "select",
+            "id": "is_video",
+            "label": "Show image or video",
+            "options": [
+              {
+                "value": "image",
+                "label": "Image"
+              },
+              {
+                "value": "video",
+                "label": "Video"
+              }
+            ],
+            "default": "image"
+          },
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_desktop",
+            "label": "Image Desktop"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_mobile",
+            "label": "Image mobile"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "range",
+            "id": "title_font_size_desktop",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 70,
+            "label": "Title font size on desktop"
+          },
+          {
+            "type": "range",
+            "id": "title_line_height_desktop",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 70,
+            "label": "Title line height on desktop"
+          },
+          {
+            "type": "range",
+            "id": "title_font_size_mobile",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 30,
+            "label": "Title font size on mobile"
+          },
+          {
+            "type": "range",
+            "id": "title_line_height_mobile",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 34,
+            "label": "Title line height on mobile"
+          },
+          {
+            "type": "color",
+            "id": "title_color",
+            "label": "Title color",
+            "default": "#000"
+          },
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "range",
+            "id": "description_font_size_desktop",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 24,
+            "label": "Description font size on desktop"
+          },
+          {
+            "type": "range",
+            "id": "description_line_height_desktop",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 32,
+            "label": "Description line height on desktop"
+          },
+          {
+            "type": "range",
+            "id": "description_font_size_mobile",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 14,
+            "label": "Description font size on mobile"
+          },
+          {
+            "type": "range",
+            "id": "description_line_height_mobile",
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "default": 16,
+            "label": "Description line height on mobile"
+          },
+          {
+            "type": "color",
+            "id": "description_color",
+            "label": "Description color",
+            "default": "#000"
+          },
+          {
+            "type": "checkbox",
+            "id": "is_external_link",
+            "label": "Open link in a new tab"
+          },
+          {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button URL"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text"
+          },
+          {
+            "type": "select",
+            "id": "main_button_color",
+            "label": "Main button background color",
+            "options": [
+              {
+                "value": "black",
+                "label": "Black"
+              },
+              {
+                "value": "white",
+                "label": "White"
+              }
+            ],
+            "default": "black"
+          },
+          {
+            "type": "checkbox",
+            "id": "is_external_link_additional",
+            "label": "Open link in a new tab"
+          },
+          {
+            "type": "url",
+            "id": "button_url_additional",
+            "label": "Additional button URL"
+          },
+          {
+            "type": "text",
+            "id": "button_text_additional",
+            "label": "Additional button text"
+          },
+          {
+            "type": "select",
+            "id": "additional_button_color",
+            "label": "Additional button background color",
+            "options": [
+              {
+                "value": "black",
+                "label": "Black"
+              },
+              {
+                "value": "white",
+                "label": "White"
+              }
+            ],
+            "default": "black"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "HP Top Banner"
+      }
+    ]
+  }
+{% endschema %}

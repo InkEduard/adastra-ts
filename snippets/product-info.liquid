@@ -39,7 +39,7 @@
   </div>
   {% comment %} Product Price {% endcomment %}
   <div class="my-4.25 flex items-center justify-between border-b border-primary pb-3.5 lg:pb-4.25">
-    {% render 'price', product, use_variant: use_variant, price_class: 'main-price' %}
+    {% render 'price', use_variant: use_variant, price_class: 'main-price' %}
   </div>
   {% comment %} Product Variants {% endcomment %}
   {% unless is_product_out_of_stock %}
@@ -167,3 +167,14 @@
     }
   }
 {% endstyle %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'price', product, use_variant: use_variant, price_class: 'main-price'
+    %}"
+  to: "{% render 'price', use_variant: use_variant, price_class: 'main-price' %}"
+  position: 1174..1247
+{% endcomment %}

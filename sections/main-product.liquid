@@ -10,7 +10,7 @@
             product-gallery
           </div>
           <div class="order-2 col-span-4 md:col-span-12 lg:z-20 lg:col-span-5 lg:row-span-3 2xl:col-span-4">
-            {% render 'product-info', product %}
+            {% render 'product-info' %}
           </div>
         </div>
       </div>
@@ -162,3 +162,13 @@
     ]
   }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'product-info', product %}"
+  to: "{% render 'product-info' %}"
+  position: 655..682
+{% endcomment %}
